@@ -12,4 +12,6 @@ class MainActivity : AppCompatActivity() {
     // Adi's initial comment
 
     // Adi's 2nd comment
+
+    // Stefano's comment
 }
