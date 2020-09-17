@@ -15,5 +15,5 @@ class MainActivity : AppCompatActivity() {
 
     // Stefano's comment
 
-    //Vinit's comment
+    // Vinit's comment
 }
