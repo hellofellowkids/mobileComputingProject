@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">mobileComputingProject</string>
     <string name="add_assignment_button">ADD ASSIGNMENT</string>
+    <string name="Task_Title">Title</string>
+    <string name="enter_title">Enter a name for the task</string>
+    <string name="enter_course">Enter a course or subject for the task</string>
+    <string name= "date_due_select">Select the due date </string>
+    <string name="date_personal_select">Select the personal due date</string>
+    <string name="course_name">Course Name</string>
+    <string name="ok_task">Add Task</string>
+   <string name="priority_select">Select a priority for the task</string>
+
 </resources>
