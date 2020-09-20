@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+
+    <TextView
+        android:id="@+id/task_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Homework 3"
+        android:textSize="20dp"/>
+
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mobile Computing"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/task_priority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Priority: LOW"
+        android:textColor="@color/green"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/final_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Due Date: 09/17/2020 at 10:00 AM "/>
+
+    <TextView
+        android:id="@+id/personal_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personal Deadline: 09/16/2020 at 8:00 PM"/>
+
+
+</LinearLayout>
