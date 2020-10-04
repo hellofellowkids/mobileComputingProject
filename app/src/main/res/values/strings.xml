@@ -8,6 +8,12 @@
     <string name="date_personal_select">Select the personal due date</string>
     <string name="course_name">Course Name</string>
     <string name="ok_task">Add Task</string>
-   <string name="priority_select">Select a priority for the task</string>
+    <string name="priority_select">Select a priority for the task</string>
+    <string name="course_subject_prompt">Course / Subject</string>
+    <string name="due_date_prompt">Due Date</string>
+    <string name="personal_date_prompt">Personal Deadline</string>
+    <string name="priority_prompt">Priority</string>
+    <string name="placeholder_info"> --- </string>
+    <string name="alerts_prompt"> Alerts </string>
 
 </resources>

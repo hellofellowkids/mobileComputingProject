@@ -1,7 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/task_recycler_view"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/crimson">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="8dp"
+            android:padding="6dp"
+            android:gravity="bottom"
+            android:shadowColor="@color/black"
+            android:shadowDx="-4"
+            android:shadowDy="4"
+            android:shadowRadius="0.01"
+            android:text="Task List"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            tools:ignore="RtlCompat" />
+
+        <Spinner
+            android:id="@+id/spinner_task_filter"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="1dp"
+            android:spinnerMode="dropdown"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/task_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_task_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="574dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="29dp"
+        android:contentDescription=""
+        app:backgroundTint="@color/crimson"
+        android:src="@drawable/ic_baseline_add_24" />
+
+
+</RelativeLayout>
 

@@ -22,7 +22,7 @@ class SchedulerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_activity, container, false)
+        val view = inflater.inflate(R.layout.fragment_activity_old, container, false)
 
         personaldate = view.findViewById(R.id.personal_deadline)
         realdate = view.findViewById(R.id.real_deadline)
