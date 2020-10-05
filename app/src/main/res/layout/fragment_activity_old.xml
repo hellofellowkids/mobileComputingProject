@@ -56,8 +56,6 @@
             android:layout_width="100dp"
             android:text="@string/add_assignment_button"
             android:layout_height="66dp"
-            android:layout_marginStart="150dp"
-            android:background="@drawable/border"
-            android:src="@drawable/ic_baseline_settings_48_black"/>
+            android:layout_marginStart="150dp"/>
     </LinearLayout>
 </LinearLayout>
