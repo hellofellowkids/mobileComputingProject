@@ -2,14 +2,16 @@ package com.bignerdranch.android.mobilecomputingproject
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
 
+private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TaskListFragment.Callbacks {
     val context=this
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onTaskSelected(taskID: UUID) {
+        Log.d(TAG, "MainActivity.onTaskSelected: $taskID")
+        val fragment = TaskFragment.newInstance(taskID)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
     // Adi's initial comment
 

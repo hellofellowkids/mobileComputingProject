@@ -15,5 +15,6 @@
     <string name="priority_prompt">Priority</string>
     <string name="placeholder_info"> --- </string>
     <string name="alerts_prompt"> Alerts </string>
+    <string name="task_list"> Task List </string>
 
 </resources>
