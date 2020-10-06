@@ -7,7 +7,7 @@ import java.util.*
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM task")
+    @Query("SELECT * FROM task WHERE complete = 0")
     fun getTasks(): LiveData<List<Task>>
 
     @Query("SELECT * FROM task WHERE taskID=(:id)")

@@ -1,6 +1,7 @@
 package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -297,7 +298,26 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     }
 
     private fun usePassedTaskInfo() {
+        // Basic Info
         taskName.setText(addTaskViewModel.newTask.taskName)
+        courseName.setText(addTaskViewModel.newTask.courseName)
+
+        // Date + Time
+        val df1 = DateFormat.format("EEE MMM dd, yyyy", addTaskViewModel.newTask.finalDeadlineDate)
+        val df2 = DateFormat.format("EEE MMM dd, yyyy", addTaskViewModel.newTask.personalDeadlineDate)
+        val df3 = DateFormat.format("hh:mm a", addTaskViewModel.newTask.finalDeadlineTime)
+        val df4 = DateFormat.format("hh:mm a", addTaskViewModel.newTask.personalDeadlineTime)
+        // Log.i(TAG, "df = $df")
+        addDueDate.text = df1
+        addDueTime.text = df3
+        addPersonalDate.text = df2
+        addPersonalTime.text = df4
+
+        when(addTaskViewModel.newTask.priority) {
+            "Low Priority" -> addPrioritySpinner.setSelection(0)
+            "Medium Priority" -> addPrioritySpinner.setSelection(1)
+            "High Priority" -> addPrioritySpinner.setSelection(2)
+        }
     }
 
     companion object {

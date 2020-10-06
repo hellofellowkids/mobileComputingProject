@@ -162,6 +162,9 @@ class TaskFragment : Fragment() {
         checkButton.setOnClickListener {
             //We want to complete this task
             Log.d(TAG, "Complete Button Clicked")
+            task.complete = true
+            taskDetailViewModel.saveTask(task)
+            callbacks?.onBackArrow()
         }
     }
 
