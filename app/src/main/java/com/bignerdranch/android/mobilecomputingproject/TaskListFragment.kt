@@ -183,7 +183,7 @@ class TaskListFragment : Fragment() {
 
             when(task.priority) {
                 "Low Priority" -> taskPriority.setTextColor(Color.parseColor("#009933"))
-                "Medium Priority" -> taskPriority.setTextColor(Color.parseColor("#FFD033"))
+                "Medium Priority" -> taskPriority.setTextColor(Color.parseColor("#C6B373"))
                 "High Priority" -> taskPriority.setTextColor(Color.parseColor("#ff0000"))
             }
         }

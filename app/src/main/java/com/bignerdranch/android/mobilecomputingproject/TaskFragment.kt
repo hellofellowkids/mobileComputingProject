@@ -1,8 +1,10 @@
 package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
+import android.graphics.Color
 import android.media.Image
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -107,14 +109,32 @@ class TaskFragment : Fragment() {
 
     private fun updateUI() {
         // set widget with info from 'task' var
+
+        val df1 = DateFormat.format("EEE MMM dd, yyyy", task.finalDeadlineDate)
+        val df2 = DateFormat.format("hh:mm a", task.finalDeadlineTime)
+        val df3 = DateFormat.format("EEE MMM dd, yyyy", task.personalDeadlineDate)
+        val df4 = DateFormat.format("hh:mm a", task.personalDeadlineTime)
+
+        // Basic Info
         taskName.text = task.taskName
-        dueDate.text = task.finalDeadlineDate.toString()
-        dueTime.text = task.finalDeadlineTime.toString()
-        personalDate.text = task.personalDeadlineDate.toString()
-        personalTime.text = task.personalDeadlineTime.toString()
         priority.text = task.priority
-        reminder.text = task.reminderFrequency.toString() //This is the date when the notification will go out
         subjectName.text = task.courseName
+
+        // Set Priority Color
+        when(task.priority) {
+            "Low Priority" -> priority.setTextColor(Color.parseColor("#009933"))
+            "Medium Priority" -> priority.setTextColor(Color.parseColor("#C6B373"))
+            "High Priority" -> priority.setTextColor(Color.parseColor("#ff0000"))
+        }
+
+
+        // Date + Time Info
+        dueDate.text = df1.toString()
+        dueTime.text = df2.toString()
+        personalDate.text = df3.toString()
+        personalTime.text = df4.toString()
+
+        reminder.text =  "---" // task.reminderFrequency.toString() //This is the date when the notification will go out
 
     }
 
