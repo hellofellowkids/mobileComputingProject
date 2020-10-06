@@ -15,7 +15,7 @@ private const val ARG_PROTOCOL = "protocol"
 class TimePickerFragment : DialogFragment() {
 
     interface Callbacks {
-        fun onTimeSelected(date: Date, protocol : Int)
+        fun onTimeSelected(time: Date, protocol : Int)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
