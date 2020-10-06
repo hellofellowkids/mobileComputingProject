@@ -15,5 +15,6 @@ data class Task (
     var personalDeadlineDate : Date = Date(),
     var personalDeadlineTime : Date = Date(),
     var reminderFrequency : Date = Date(),
+    var reminderTime : Date = Date(),
     var complete : Boolean = false
 )

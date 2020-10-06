@@ -146,7 +146,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         // Final Deadline Selection - Time
         dueTimeSelect.setOnClickListener {
             // Log.d(TAG, "Select due time for deadline")
-            TimePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineTime, 1)
+            TimePickerFragment.newInstance(addTaskViewModel.newTask.finalDeadlineTime, 1)
                 .apply {
                     setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
                     show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)

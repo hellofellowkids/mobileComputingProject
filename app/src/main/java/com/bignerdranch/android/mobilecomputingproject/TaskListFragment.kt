@@ -1,6 +1,7 @@
 package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -159,11 +160,32 @@ class TaskListFragment : Fragment() {
 
         fun bind(task: Task) {
             this.task = task
+
+            // basic task information
             taskName.text = this.task.taskName
             courseName.text = this.task.courseName
             taskPriority.text = this.task.priority
-            finalDeadline.text = this.task.finalDeadlineDate.toString()
-            personalDeadline.text = this.task.personalDeadlineDate.toString()
+
+            // date + time information
+            val df1 = DateFormat.format("EEE MMM dd, yyyy", task.finalDeadlineDate)
+            val df2 = DateFormat.format("hh:mm a", task.finalDeadlineTime)
+            val df3 = DateFormat.format("EEE MMM dd, yyyy", task.personalDeadlineDate)
+            val df4 = DateFormat.format("hh:mm a", task.personalDeadlineTime)
+
+            Log.i(TAG, "---------------------------------")
+            Log.i(TAG, "${task.finalDeadlineDate}")
+            Log.i(TAG, "${task.finalDeadlineTime}")
+            Log.i(TAG, "${task.personalDeadlineDate}")
+            Log.i(TAG, "${task.personalDeadlineTime}")
+
+            finalDeadline.text = df1.toString() + " " + df2.toString()
+            personalDeadline.text = df3.toString() + " " + df4.toString()
+
+            when(task.priority) {
+                "Low Priority" -> taskPriority.setTextColor(Color.parseColor("#009933"))
+                "Medium Priority" -> taskPriority.setTextColor(Color.parseColor("#FFD033"))
+                "High Priority" -> taskPriority.setTextColor(Color.parseColor("#ff0000"))
+            }
         }
 
         override fun onClick(v: View) {
