@@ -190,11 +190,11 @@
 
         <TextView
             android:id="@+id/add_due_date_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="32dp"
             android:text="@string/placeholder_info"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -221,10 +221,10 @@
 
         <TextView
             android:id="@+id/add_due_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="32dp"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@string/placeholder_info"/>
 
     </LinearLayout>
@@ -291,10 +291,10 @@ android:orientation="horizontal"
 
     <TextView
         android:id="@+id/add_personal_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:text="@string/placeholder_info"/>
 
 </LinearLayout>
@@ -322,10 +322,10 @@ android:orientation="horizontal"
 
     <TextView
         android:id="@+id/add_personal_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:text="@string/placeholder_info"/>
 
 </LinearLayout>

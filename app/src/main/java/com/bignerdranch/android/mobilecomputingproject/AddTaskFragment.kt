@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import java.util.*
+
 
 private const val TAG = "AddTaskFragment"
 private const val DIALOG_DATE = "DialogDate"
@@ -213,16 +215,37 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     override fun onDateSelected(date: Date, protocol : Int) {
         Log.i(TAG, "Protocol: $protocol and Date: $date")
         when (protocol) {
-            1 -> addTaskViewModel.newTask.finalDeadlineDate = date
-            2 -> addTaskViewModel.newTask.personalDeadlineDate = date
+            1 ->  {
+                addTaskViewModel.newTask.finalDeadlineDate = date
+                val df = DateFormat.format("EEE MMM dd, yyyy", date)
+                // Log.i(TAG, "df = $df")
+                addDueDate.text = df
+
+            }
+            2 ->  {
+                addTaskViewModel.newTask.personalDeadlineDate = date
+                val df = DateFormat.format("EEE MMM dd, yyyy", date)
+                // Log.i(TAG, "df = $df")
+                addPersonalDate.text = df
+            }
         }
     }
 
     override fun onTimeSelected(time: Date, protocol : Int) {
         Log.i(TAG, "Protocol: $protocol and Date: $time")
         when (protocol) {
-            1 -> addTaskViewModel.newTask.finalDeadlineTime = time
-            2 -> addTaskViewModel.newTask.personalDeadlineTime = time
+            1 ->  {
+                addTaskViewModel.newTask.finalDeadlineTime = time
+                val df = DateFormat.format("hh:mm a", time)
+                // Log.i(TAG, "df = $df")
+                addDueTime.text = df
+            }
+            2 -> {
+                addTaskViewModel.newTask.personalDeadlineTime = time
+                val df = DateFormat.format("hh:mm a", time)
+                // Log.i(TAG, "df = $df")
+                addPersonalTime.text = df
+            }
         }
     }
 

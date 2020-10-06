@@ -3,6 +3,7 @@ package com.bignerdranch.android.mobilecomputingproject
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
