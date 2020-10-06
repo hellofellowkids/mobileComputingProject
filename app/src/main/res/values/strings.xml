@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">mobileComputingProject</string>
     <string name="add_assignment_button">ADD ASSIGNMENT</string>
-    <string name="Task_Title">Title</string>
+    <string name="task_name">Task Name</string>
     <string name="enter_title">Enter a name for the task</string>
     <string name="enter_course">Enter a course or subject for the task</string>
     <string name= "date_due_select">Select the due date </string>
@@ -16,5 +16,22 @@
     <string name="placeholder_info"> --- </string>
     <string name="alerts_prompt"> Alerts </string>
     <string name="task_list"> Task List </string>
+    <string name="new_task"> New Task </string>
+    <string name="date"> Date </string>
+    <string name="time"> Time </string>
+    <string name="frequency"> Frequency </string>
+    <string name="content_desc"> TODO </string>
+
+    <string-array name="priority_array">
+        <item>Low Priority</item>
+        <item>Medium Priority</item>
+        <item>High Priority</item>
+    </string-array>
+
+    <string-array name="sort_array">
+        <item>Sort By…</item>
+        <item>By Due Date</item>
+        <item>By Personal Due Date</item>
+    </string-array>
 
 </resources>

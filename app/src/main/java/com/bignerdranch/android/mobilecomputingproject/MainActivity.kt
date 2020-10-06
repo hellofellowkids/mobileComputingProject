@@ -11,7 +11,8 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity(), TaskListFragment.Callbacks {
+class MainActivity : AppCompatActivity(),
+    TaskListFragment.Callbacks, AddTaskFragment.Callbacks, TaskFragment.Callbacks {
     val context=this
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,16 +52,14 @@ class MainActivity : AppCompatActivity(), TaskListFragment.Callbacks {
             .commit()
     }
 
-    // Adi's initial comment
+    override fun onBackPressed() {
+        Log.d(TAG, "Back button pressed from Add Task Fragment!")
+        super.onBackPressed()
+    }
 
-    // Adi's 2nd comment
-
-    // Stefano's comment
-
-    // Vinit's comment
-
-
-
-
+    override fun onBackArrow() {
+        Log.d(TAG, "Back button pressed from Task Fragment!")
+        super.onBackPressed()
+    }
 
 }

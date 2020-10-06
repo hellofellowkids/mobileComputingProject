@@ -7,7 +7,7 @@
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Task_Title"/>
+        tools:text="Title"/>
 
     <EditText
         android:id="@+id/crime_title"

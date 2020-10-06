@@ -6,8 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +17,7 @@ private const val TAG = "TaskListFragment"
 
 class TaskListFragment : Fragment() {
 
-    /**
-     * Required interface for hosting activities
-     */
+    // Callbacks for fragment navigation
     interface Callbacks {
         fun onTaskSelected(taskID: UUID)
         fun onAddTask()
@@ -28,14 +25,18 @@ class TaskListFragment : Fragment() {
 
     private var callbacks: Callbacks? = null
 
-    // widgets inside task list
+    // related to Recycle View
     private lateinit var taskRecycleView : RecyclerView
-    private lateinit var addTaskButton : FloatingActionButton
     private var adapter: TaskAdapter? = null
 
+    // List view model defined by lazy
     private val taskListViewModel: TaskListViewModel by lazy {
         ViewModelProviders.of(this).get(TaskListViewModel::class.java)
     }
+
+    // widgets outside of recycle view
+    private lateinit var addTaskButton : FloatingActionButton
+    private lateinit var taskFilter : Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +60,12 @@ class TaskListFragment : Fragment() {
         // find widgets in layout
         taskRecycleView = view.findViewById(R.id.task_recycler_view) as RecyclerView
         addTaskButton = view.findViewById(R.id.add_task_button) as FloatingActionButton
+        taskFilter = view.findViewById(R.id.spinner_task_filter) as Spinner
 
+        // setup spinner
+        setupSpinnerAdapter()
+
+        // update UI
         updateUI()
 
         return view
@@ -73,6 +79,20 @@ class TaskListFragment : Fragment() {
             // Toast.makeText(context, "Add Button pressed!", Toast.LENGTH_SHORT).show()
             callbacks?.onAddTask()
         }
+
+        // task filter
+        taskFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.d(TAG, "Selected item from spinner position = $position")
+            }
+
+        }
+
+
     }
 
     override fun onDetach() {
@@ -86,6 +106,24 @@ class TaskListFragment : Fragment() {
         taskRecycleView.adapter = adapter
     }
 
+    // setup spinner
+    private fun setupSpinnerAdapter() {
+        // Array adapter for task filter
+        activity?.let {
+            ArrayAdapter.createFromResource(
+                it,
+                R.array.sort_array,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                taskFilter.adapter = adapter
+            }
+        }
+    }
+
+    // Item holders for recycle view
     private inner class TaskHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
 
@@ -118,6 +156,7 @@ class TaskListFragment : Fragment() {
 
     }
 
+    // Adapter for recycler view
     private inner class TaskAdapter(var tasks: List<Task>)
         : RecyclerView.Adapter<TaskHolder>() {
 
