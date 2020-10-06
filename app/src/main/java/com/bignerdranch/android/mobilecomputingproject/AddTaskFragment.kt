@@ -2,6 +2,8 @@ package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,10 +29,28 @@ class AddTaskFragment : Fragment() {
         ViewModelProviders.of(this).get(AddTaskViewModel::class.java)
     }
 
+
+    private lateinit var task: Task
+
     // widgets on screen
     private lateinit var prioritySelection : Spinner
     private lateinit var customBackButton : ImageView
     private lateinit var confirmNewTask : ImageView
+    private lateinit var taskName: EditText
+    private lateinit var courseName: EditText
+
+    /* NOT SURE ABOUT THESE AND IF THEY WILL REMAIN TEXTVIEWS */
+    private lateinit var addDueDate: TextView
+    private lateinit var addDueTime: TextView
+    private lateinit var addPersonalDate: TextView
+    private lateinit var addPersonalTime: TextView
+    private lateinit var addFrequencyText: TextView
+    private lateinit var addReminderTime: TextView
+
+
+    private lateinit var addPrioritySpinner: Spinner
+
+
 
 
     override fun onAttach(context: Context) {
@@ -51,6 +71,17 @@ class AddTaskFragment : Fragment() {
         prioritySelection = view.findViewById(R.id.spinner_priority) as Spinner
         customBackButton = view.findViewById(R.id.back_arrow_new_task) as ImageView
         confirmNewTask = view.findViewById(R.id.confirm_add_task) as ImageView
+        taskName = view.findViewById(R.id.added_task_name) as EditText
+        courseName = view.findViewById(R.id.subject_name_text) as EditText
+
+        /* AGAIN NOT SURE ABOUT THESE */
+        addDueDate = view.findViewById(R.id.add_due_date_text) as TextView
+        addDueTime = view.findViewById(R.id.add_due_time_text) as TextView
+        addPersonalDate = view.findViewById(R.id.add_personal_date_text) as TextView
+        addPersonalTime = view.findViewById(R.id.add_personal_time_text) as TextView
+        addFrequencyText = view.findViewById(R.id.add_frequency_text) as TextView
+        addReminderTime = view.findViewById(R.id.add_reminder_time_text) as TextView
+        addPrioritySpinner = view.findViewById(R.id.spinner_priority) as Spinner
 
         Log.d(TAG, "New task ID: ${addTaskViewModel.newTask.taskID}")
         // setup spinner
@@ -62,6 +93,36 @@ class AddTaskFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        taskName.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable?) {
+                //DO NOTHING
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //DO NOTHING
+            }
+
+            override fun onTextChanged(sequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                task.taskName = sequence.toString()
+            }
+        })
+
+        courseName.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable?) {
+                //DO NOTHING
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //DO NOTHING
+            }
+
+            override fun onTextChanged(sequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                task.courseName = sequence.toString()
+            }
+        })
+
         // <-- button
         customBackButton.setOnClickListener {
             // Log.d(TAG, "Back button pressed!")
@@ -71,7 +132,9 @@ class AddTaskFragment : Fragment() {
         // check mark button on top right
         confirmNewTask.setOnClickListener {
             Log.d(TAG, "New task being added!")
-            addTaskViewModel.newTask.taskName = "Dummy Homework"
+            addTaskViewModel.newTask.taskName = "UI Mockup Design"
+            addTaskViewModel.newTask.courseName = "Mobile Computing"
+            addTaskViewModel.newTask.priority = "High Priority"
             addTaskViewModel.addTask()
             callbacks?.onBackPressed()
         }
