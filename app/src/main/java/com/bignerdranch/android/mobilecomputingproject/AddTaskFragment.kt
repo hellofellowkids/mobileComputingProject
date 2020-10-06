@@ -14,8 +14,12 @@ import androidx.lifecycle.ViewModelProviders
 import java.util.*
 
 private const val TAG = "AddTaskFragment"
+private const val DIALOG_DATE = "DialogDate"
+private const val DIALOG_TIME = "DialogTime"
+private const val REQUEST_DATE = 0
+private const val REQUEST_TIME = 1
 
-class AddTaskFragment : Fragment() {
+class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFragment.Callbacks {
 
     // Callbacks for fragment navigation
     interface Callbacks {
@@ -29,15 +33,17 @@ class AddTaskFragment : Fragment() {
         ViewModelProviders.of(this).get(AddTaskViewModel::class.java)
     }
 
-
-    private lateinit var task: Task
-
     // widgets on screen
     private lateinit var prioritySelection : Spinner
     private lateinit var customBackButton : ImageView
     private lateinit var confirmNewTask : ImageView
     private lateinit var taskName: EditText
     private lateinit var courseName: EditText
+    private lateinit var dueDateSelect : LinearLayout
+    private lateinit var dueTimeSelect : LinearLayout
+    private lateinit var personDateSelect : LinearLayout
+    private lateinit var personTimeSelect : LinearLayout
+
 
     /* NOT SURE ABOUT THESE AND IF THEY WILL REMAIN TEXTVIEWS */
     private lateinit var addDueDate: TextView
@@ -47,11 +53,7 @@ class AddTaskFragment : Fragment() {
     private lateinit var addFrequencyText: TextView
     private lateinit var addReminderTime: TextView
 
-
     private lateinit var addPrioritySpinner: Spinner
-
-
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -73,6 +75,10 @@ class AddTaskFragment : Fragment() {
         confirmNewTask = view.findViewById(R.id.confirm_add_task) as ImageView
         taskName = view.findViewById(R.id.added_task_name) as EditText
         courseName = view.findViewById(R.id.subject_name_text) as EditText
+        dueDateSelect = view.findViewById(R.id.due_date_select) as LinearLayout
+        dueTimeSelect = view.findViewById(R.id.due_time_select) as LinearLayout
+        personDateSelect = view.findViewById(R.id.personal_date_select) as LinearLayout
+        personTimeSelect = view.findViewById(R.id.personal_time_select) as LinearLayout
 
         /* AGAIN NOT SURE ABOUT THESE */
         addDueDate = view.findViewById(R.id.add_due_date_text) as TextView
@@ -93,6 +99,7 @@ class AddTaskFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        // Edit text for task name
         taskName.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
@@ -104,10 +111,11 @@ class AddTaskFragment : Fragment() {
             }
 
             override fun onTextChanged(sequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                task.taskName = sequence.toString()
+                addTaskViewModel.newTask.taskName = sequence.toString()
             }
         })
 
+        // Edit text for course name
         courseName.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
@@ -119,9 +127,49 @@ class AddTaskFragment : Fragment() {
             }
 
             override fun onTextChanged(sequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                task.courseName = sequence.toString()
+                addTaskViewModel.newTask.courseName = sequence.toString()
             }
         })
+
+        // Final Deadline Selection - Date
+        dueDateSelect.setOnClickListener {
+            // Log.d(TAG, "Select due date for deadline")
+            DatePickerFragment.newInstance(addTaskViewModel.newTask.finalDeadlineDate, 1)
+                .apply {
+                    setTargetFragment(this@AddTaskFragment, REQUEST_DATE)
+                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_DATE)
+                }
+        }
+
+        // Final Deadline Selection - Time
+        dueTimeSelect.setOnClickListener {
+            // Log.d(TAG, "Select due time for deadline")
+            TimePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineTime, 1)
+                .apply {
+                    setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
+                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
+                }
+        }
+
+        // Personal Deadline Selection - Date
+        personDateSelect.setOnClickListener {
+            // Log.d(TAG, "Select due date for personal")
+            DatePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineDate, 2)
+                .apply {
+                    setTargetFragment(this@AddTaskFragment, REQUEST_DATE)
+                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_DATE)
+                }
+        }
+
+        // Personal Deadline Selection - Time
+        personTimeSelect.setOnClickListener {
+            // Log.d(TAG, "Select due time for personal")
+            TimePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineTime, 2)
+                .apply {
+                    setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
+                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
+                }
+        }
 
         // <-- button
         customBackButton.setOnClickListener {
@@ -132,9 +180,9 @@ class AddTaskFragment : Fragment() {
         // check mark button on top right
         confirmNewTask.setOnClickListener {
             Log.d(TAG, "New task being added!")
-            addTaskViewModel.newTask.taskName = "UI Mockup Design"
-            addTaskViewModel.newTask.courseName = "Mobile Computing"
-            addTaskViewModel.newTask.priority = "High Priority"
+            // addTaskViewModel.newTask.taskName = "UI Mockup Design"
+            // addTaskViewModel.newTask.courseName = "Mobile Computing"
+            // addTaskViewModel.newTask.priority = "High Priority"
             addTaskViewModel.addTask()
             callbacks?.onBackPressed()
         }
@@ -148,14 +196,34 @@ class AddTaskFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d(TAG, "Selected item from spinner position = $position")
+                when (position) {
+                    0 -> addTaskViewModel.newTask.priority = "Low Priority"
+                    1 -> addTaskViewModel.newTask.priority = "Medium Priority"
+                    2 -> addTaskViewModel.newTask.priority = "High Priority"
+                }
             }
-
         }
     }
 
     override fun onDetach() {
         super.onDetach()
         callbacks = null
+    }
+
+    override fun onDateSelected(date: Date, protocol : Int) {
+        Log.i(TAG, "Protocol: $protocol and Date: $date")
+        when (protocol) {
+            1 -> addTaskViewModel.newTask.finalDeadlineDate = date
+            2 -> addTaskViewModel.newTask.personalDeadlineDate = date
+        }
+    }
+
+    override fun onTimeSelected(time: Date, protocol : Int) {
+        Log.i(TAG, "Protocol: $protocol and Date: $time")
+        when (protocol) {
+            1 -> addTaskViewModel.newTask.finalDeadlineTime = time
+            2 -> addTaskViewModel.newTask.personalDeadlineTime = time
+        }
     }
 
     private fun setupSpinnerAdapter() {

@@ -1,18 +1,21 @@
 package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val TAG = "TaskListFragment"
@@ -156,10 +159,10 @@ class TaskListFragment : Fragment() {
         fun bind(task: Task) {
             this.task = task
             taskName.text = this.task.taskName
-            courseName.text = this.task.taskName
-            taskPriority.text = this.task.taskName
-            finalDeadline.text = this.task.taskName
-            personalDeadline.text = this.task.taskName
+            courseName.text = this.task.courseName
+            taskPriority.text = this.task.priority
+            finalDeadline.text = this.task.finalDeadlineDate.toString()
+            personalDeadline.text = this.task.personalDeadlineDate.toString()
         }
 
         override fun onClick(v: View) {
