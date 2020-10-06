@@ -23,6 +23,7 @@ class TaskListFragment : Fragment() {
      */
     interface Callbacks {
         fun onTaskSelected(taskID: UUID)
+        fun onAddTask()
     }
 
     private var callbacks: Callbacks? = null
@@ -62,6 +63,16 @@ class TaskListFragment : Fragment() {
         updateUI()
 
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // + button
+        addTaskButton.setOnClickListener{
+            // Toast.makeText(context, "Add Button pressed!", Toast.LENGTH_SHORT).show()
+            callbacks?.onAddTask()
+        }
     }
 
     override fun onDetach() {

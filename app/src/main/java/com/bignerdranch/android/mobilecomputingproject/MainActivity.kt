@@ -41,6 +41,16 @@ class MainActivity : AppCompatActivity(), TaskListFragment.Callbacks {
             .commit()
     }
 
+    override fun onAddTask() {
+        Log.d(TAG, "MainActivity.onAddTask()")
+        val fragment = AddTaskFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     // Adi's initial comment
 
     // Adi's 2nd comment
