@@ -152,11 +152,11 @@ class TaskFragment : Fragment() {
             callbacks?.onBackArrow()
         }
 
+        // gear icons
         editSettingsButton.setOnClickListener {
             //We want to edit this task
             Log.d(TAG, "Edit Settings Button Clicked")
-            //callbacks?.onEditSelected(taskId)
-
+            callbacks?.onEditSelected(task.taskID)
         }
 
         checkButton.setOnClickListener {

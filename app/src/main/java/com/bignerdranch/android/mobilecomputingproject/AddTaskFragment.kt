@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import java.util.*
 
@@ -20,6 +21,7 @@ private const val DIALOG_DATE = "DialogDate"
 private const val DIALOG_TIME = "DialogTime"
 private const val REQUEST_DATE = 0
 private const val REQUEST_TIME = 1
+private const val ARG_EDIT_TASK_ID = "editingID"
 
 class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFragment.Callbacks {
 
@@ -92,10 +94,33 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         addPrioritySpinner = view.findViewById(R.id.spinner_priority) as Spinner
 
         Log.d(TAG, "New task ID: ${addTaskViewModel.newTask.taskID}")
+
         // setup spinner
         setupSpinnerAdapter()
 
+
+
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(arguments != null) {
+            val passedTaskID: UUID = arguments?.getSerializable(ARG_EDIT_TASK_ID) as UUID
+            Log.d(TAG, "args bundle task ID: $passedTaskID")
+            addTaskViewModel.load(passedTaskID)
+
+            addTaskViewModel.taskLiveData.observe(
+                viewLifecycleOwner,
+                Observer { task ->
+                    task?.let {
+                        addTaskViewModel.newTask = task
+                        usePassedTaskInfo()
+                    }
+                })
+        }
     }
 
     override fun onStart() {
@@ -185,8 +210,14 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             // addTaskViewModel.newTask.taskName = "UI Mockup Design"
             // addTaskViewModel.newTask.courseName = "Mobile Computing"
             // addTaskViewModel.newTask.priority = "High Priority"
-            addTaskViewModel.addTask()
-            callbacks?.onBackPressed()
+            if(arguments != null) {
+                addTaskViewModel.saveTask()
+                callbacks?.onBackPressed()
+            }
+             else {
+                addTaskViewModel.addTask()
+                callbacks?.onBackPressed()
+            }
         }
 
 
@@ -265,9 +296,22 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         }
     }
 
+    private fun usePassedTaskInfo() {
+        taskName.setText(addTaskViewModel.newTask.taskName)
+    }
+
     companion object {
         fun newInstance(): AddTaskFragment {
             return AddTaskFragment()
+        }
+
+        fun newInstance(taskID : UUID):AddTaskFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_EDIT_TASK_ID, taskID)
+            }
+            return AddTaskFragment().apply {
+                arguments = args
+            }
         }
     }
 }

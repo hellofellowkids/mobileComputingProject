@@ -64,8 +64,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onEditSelected(taskId: UUID) {
         Log.d(TAG, "Edit button pressed from Task Fragment!")
-        //TODO: NEED TO CREATE A newInstance(UUID) function in AddTaskFragment that will load the task with current information
-        val fragment = AddTaskFragment.newInstance()
+        val fragment = AddTaskFragment.newInstance(taskId)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
