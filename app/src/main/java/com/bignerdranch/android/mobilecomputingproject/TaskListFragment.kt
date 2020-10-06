@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
@@ -27,7 +29,7 @@ class TaskListFragment : Fragment() {
 
     // related to Recycle View
     private lateinit var taskRecycleView : RecyclerView
-    private var adapter: TaskAdapter? = null
+    private var adapter: TaskAdapter? = TaskAdapter(emptyList())
 
     // List view model defined by lazy
     private val taskListViewModel: TaskListViewModel by lazy {
@@ -38,10 +40,6 @@ class TaskListFragment : Fragment() {
     private lateinit var addTaskButton : FloatingActionButton
     private lateinit var taskFilter : Spinner
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG, "Total tasks: ${taskListViewModel.tasks.size}")
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,13 +60,26 @@ class TaskListFragment : Fragment() {
         addTaskButton = view.findViewById(R.id.add_task_button) as FloatingActionButton
         taskFilter = view.findViewById(R.id.spinner_task_filter) as Spinner
 
+        // setup recycle view
+        taskRecycleView.layoutManager = LinearLayoutManager(context)
+        taskRecycleView.adapter = adapter
+
         // setup spinner
         setupSpinnerAdapter()
 
-        // update UI
-        updateUI()
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        taskListViewModel.taskListLiveData.observe(
+            viewLifecycleOwner,
+            Observer { tasks ->
+                tasks?.let {
+                    Log.i(TAG, "Got ${tasks.size} tasks")
+                    updateUI(tasks)
+                }
+            })
     }
 
     override fun onStart() {
@@ -77,7 +88,10 @@ class TaskListFragment : Fragment() {
         // + button
         addTaskButton.setOnClickListener{
             // Toast.makeText(context, "Add Button pressed!", Toast.LENGTH_SHORT).show()
+            // val task = Task()
+            // taskListViewModel.addTask(task)
             callbacks?.onAddTask()
+            // callbacks?.onAddTask()
         }
 
         // task filter
@@ -100,8 +114,7 @@ class TaskListFragment : Fragment() {
         callbacks = null
     }
 
-    private fun updateUI() {
-        val tasks = taskListViewModel.tasks
+    private fun updateUI(tasks: List<Task>) {
         adapter = TaskAdapter(tasks)
         taskRecycleView.adapter = adapter
     }

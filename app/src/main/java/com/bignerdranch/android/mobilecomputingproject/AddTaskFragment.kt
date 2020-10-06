@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import java.util.*
 
 private const val TAG = "AddTaskFragment"
@@ -21,10 +22,15 @@ class AddTaskFragment : Fragment() {
 
     private var callbacks: Callbacks? = null
 
+    // List view model defined by lazy
+    private val addTaskViewModel: AddTaskViewModel by lazy {
+        ViewModelProviders.of(this).get(AddTaskViewModel::class.java)
+    }
 
     // widgets on screen
     private lateinit var prioritySelection : Spinner
     private lateinit var customBackButton : ImageView
+    private lateinit var confirmNewTask : ImageView
 
 
     override fun onAttach(context: Context) {
@@ -44,7 +50,9 @@ class AddTaskFragment : Fragment() {
         // find widgets in layout
         prioritySelection = view.findViewById(R.id.spinner_priority) as Spinner
         customBackButton = view.findViewById(R.id.back_arrow_new_task) as ImageView
+        confirmNewTask = view.findViewById(R.id.confirm_add_task) as ImageView
 
+        Log.d(TAG, "New task ID: ${addTaskViewModel.newTask.taskID}")
         // setup spinner
         setupSpinnerAdapter()
 
@@ -57,6 +65,14 @@ class AddTaskFragment : Fragment() {
         // <-- button
         customBackButton.setOnClickListener {
             // Log.d(TAG, "Back button pressed!")
+            callbacks?.onBackPressed()
+        }
+
+        // check mark button on top right
+        confirmNewTask.setOnClickListener {
+            Log.d(TAG, "New task being added!")
+            addTaskViewModel.newTask.taskName = "Dummy Homework"
+            addTaskViewModel.addTask()
             callbacks?.onBackPressed()
         }
 

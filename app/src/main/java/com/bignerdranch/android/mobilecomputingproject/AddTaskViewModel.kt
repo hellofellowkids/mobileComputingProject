@@ -3,16 +3,14 @@ package com.bignerdranch.android.mobilecomputingproject
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.mobilecomputingproject.database.TaskRepository
 
-class TaskListViewModel : ViewModel(){
+class AddTaskViewModel : ViewModel(){
 
     private val taskRepository = TaskRepository.get()
-    val taskListLiveData = taskRepository.getTasks()
+    val newTask = Task()
 
-    /*
-    fun addTask(task: Task) {
-        taskRepository.addTask(task)
+    fun addTask() {
+        taskRepository.addTask(newTask)
     }
-     */
 
     /*
     init {
