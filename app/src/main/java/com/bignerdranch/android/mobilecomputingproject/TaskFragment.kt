@@ -20,8 +20,10 @@ import java.util.*
 
 private const val TAG = "TaskFragment"
 private const val ARG_TASK_ID = "task_id"
+private const val DIALOG_ALERT = "DialogAlert"
+private const val REQUEST_ANSWER = 0
 
-class TaskFragment : Fragment() {
+class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
 
     // Callbacks for fragment navigation
     interface Callbacks {
@@ -171,7 +173,15 @@ class TaskFragment : Fragment() {
             Log.d(TAG, "Complete Button Clicked")
             task.complete = true
             taskDetailViewModel.saveTask(task)
-            callbacks?.onBackArrow()
+
+            // Now prompt for camera
+            AlertDialogFragment.newInstance().apply {
+                setTargetFragment(this@TaskFragment, REQUEST_ANSWER)
+                show(this@TaskFragment.requireFragmentManager(), DIALOG_ALERT)
+            }
+
+            // go back to list view
+            // callbacks?.onBackArrow()
         }
     }
 
@@ -185,6 +195,14 @@ class TaskFragment : Fragment() {
         callbacks = null
     }
 
+    override fun onPositiveClick() {
+        Log.d(TAG, "Yes response!")
+    }
+
+    override fun onNegativeClick() {
+        Log.d(TAG, "NO response!")
+        callbacks?.onBackArrow()
+    }
 
     companion object {
 

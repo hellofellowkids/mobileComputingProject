@@ -17,4 +17,6 @@ data class Task (
     var reminderFrequency : Date = Date(),
     var reminderTime : Date = Date(),
     var complete : Boolean = false
-)
+) {
+    val photoFileName get() = "IMG_$taskID.jpg"
+}

@@ -1,59 +1,49 @@
 package com.bignerdranch.android.mobilecomputingproject
+import android.R
 import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*
-
-
 
 
 class AlertDialogFragment : DialogFragment() {
 
     interface Callbacks {
-        fun onDateSelected(time: Date, protocol : Int)
+        fun onPositiveClick()
+        fun onNegativeClick()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // Extract info from bundle
-
-        // setup callback
-
         val ad = AlertDialog.Builder(requireContext())
         ad.setTitle("Take a photo")
         ad.setMessage("Would you like to take a photo?")
 
-
-
-
-        val positiveListener = DialogInterface.OnClickListener()  {
-            fun onClick(dialog : Dialog, which : Int) {
-
+        ad.setPositiveButton(R.string.yes ,
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                targetFragment?.let { fragment ->
+                    (fragment as AlertDialogFragment.Callbacks).onPositiveClick()
+                }
             }
-        }
+        )
 
-        val negativeListener = DialogInterface.OnClickListener() {
-            fun onClick(dialog : Dialog, which : Int) {
-                // continue with option
+        ad.setNegativeButton(R.string.no ,
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                targetFragment?.let { fragment ->
+                    (fragment as AlertDialogFragment.Callbacks).onNegativeClick()
+                }
             }
-        }
-        ad.setPositiveButton(android.R.string.yes, positiveListener)
-        ad.setNegativeButton(android.R.string.no,negativeListener)
+        )
 
 
 
-        return ad;
+        return ad.create();
     }
 
     companion object {
         fun newInstance(): AlertDialogFragment {
-
             return AlertDialogFragment()
         }
     }
 }
-
-

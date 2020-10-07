@@ -177,6 +177,7 @@ class TaskListFragment : Fragment() {
         val taskPriority: TextView = itemView.findViewById(R.id.task_priority)
         val finalDeadline: TextView = itemView.findViewById(R.id.final_deadline)
         val personalDeadline: TextView = itemView.findViewById(R.id.personal_deadline)
+        val assignPic : ImageView = itemView.findViewById(R.id.completed_task_photo)
 
         fun bind(task: Task) {
             this.task = task
