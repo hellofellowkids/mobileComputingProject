@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import java.util.*
 
 
-/*
+
 
 class AlertDialogFragment : DialogFragment() {
 
@@ -26,13 +26,23 @@ class AlertDialogFragment : DialogFragment() {
         ad.setTitle("Take a photo")
         ad.setMessage("Would you like to take a photo?")
 
-        val positiveListener = DialogInterface.OnClickListener() {
+
+
+
+        val positiveListener = DialogInterface.OnClickListener()  {
+            fun onClick(dialog : Dialog, which : Int) {
+
+            }
+        }
+
+        val negativeListener = DialogInterface.OnClickListener() {
             fun onClick(dialog : Dialog, which : Int) {
                 // continue with option
             }
         }
-
         ad.setPositiveButton(android.R.string.yes, positiveListener)
+        ad.setNegativeButton(android.R.string.no,negativeListener)
+
 
 
         return ad;
@@ -46,4 +56,4 @@ class AlertDialogFragment : DialogFragment() {
     }
 }
 
- */
+
