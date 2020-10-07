@@ -34,6 +34,8 @@
         <item>By Due Date</item>
         <item>By Personal Due Date</item>
         <item>High Priority</item>
+        <item>Medium Priority</item>
+        <item>Low Priority</item>
         <item>Course / Subject </item>
     </string-array>
 

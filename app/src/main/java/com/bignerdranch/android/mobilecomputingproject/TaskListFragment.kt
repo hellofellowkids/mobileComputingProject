@@ -107,13 +107,16 @@ class TaskListFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d(TAG, "Selected item from spinner position = $position")
+                //This will filter tasks according to spinner selection
                 when(position) {
                     0 -> taskListViewModel.switchIncomplete()
                     1 -> taskListViewModel.switchComplete()
                     2 -> taskListViewModel.switchDeadlineSort()
                     3 -> taskListViewModel.switchPersonalSort()
                     4 -> taskListViewModel.getHigh()
-                    5 -> taskListViewModel.getCourseSort()
+                    5 -> taskListViewModel.getMed()
+                    6 -> taskListViewModel.getLow()
+                    7 -> taskListViewModel.getCourseSort()
                 }
 
                 // STUPID OBSERVER

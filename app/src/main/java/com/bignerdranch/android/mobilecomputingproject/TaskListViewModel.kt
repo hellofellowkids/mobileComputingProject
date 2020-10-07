@@ -29,6 +29,14 @@ class TaskListViewModel : ViewModel(){
         taskListLiveData = taskRepository.getHighPriority()
     }
 
+    fun getMed(){
+        taskListLiveData = taskRepository.getMedPriority()
+    }
+
+    fun getLow(){
+        taskListLiveData = taskRepository.getLowPriority()
+    }
+
     fun getCourseSort() {
         taskListLiveData = taskRepository.getCourseSort()
     }
