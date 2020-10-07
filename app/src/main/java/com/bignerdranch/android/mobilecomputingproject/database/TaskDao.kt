@@ -19,6 +19,12 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE complete = 0 ORDER BY personalDeadlineDate ")
     fun getPersonalSorted(): LiveData<List<Task>>
 
+    @Query("SELECT * FROM task WHERE complete = 0 AND priority = 'High Priority'")
+    fun getHighPriority(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task WHERE complete = 0 ORDER BY courseName")
+    fun getCourseSort(): LiveData<List<Task>>
+
     @Query("SELECT * FROM task WHERE taskID=(:id)")
     fun getTask(id: UUID): LiveData<Task?>
 

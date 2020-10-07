@@ -28,6 +28,9 @@ class TaskRepository private constructor(context: Context) {
 
     fun getDeadlineSorted(): LiveData<List<Task>> = taskDao.getDeadlineSorted()
 
+    fun getHighPriority(): LiveData<List<Task>> = taskDao.getHighPriority()
+
+    fun getCourseSort(): LiveData<List<Task>> = taskDao.getCourseSort()
 
     fun getTask(id: UUID): LiveData<Task?> = taskDao.getTask(id)
 

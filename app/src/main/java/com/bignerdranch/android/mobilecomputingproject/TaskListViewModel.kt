@@ -24,6 +24,15 @@ class TaskListViewModel : ViewModel(){
         taskListLiveData = taskRepository.getPersonalSorted()
     }
 
+    // 420
+    fun getHigh() {
+        taskListLiveData = taskRepository.getHighPriority()
+    }
+
+    fun getCourseSort() {
+        taskListLiveData = taskRepository.getCourseSort()
+    }
+
 
     /*
     fun addTask(task: Task) {

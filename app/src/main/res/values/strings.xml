@@ -33,6 +33,8 @@
         <item>Complete</item>
         <item>By Due Date</item>
         <item>By Personal Due Date</item>
+        <item>High Priority</item>
+        <item>Course / Subject </item>
     </string-array>
 
 </resources>

@@ -112,6 +112,8 @@ class TaskListFragment : Fragment() {
                     1 -> taskListViewModel.switchComplete()
                     2 -> taskListViewModel.switchDeadlineSort()
                     3 -> taskListViewModel.switchPersonalSort()
+                    4 -> taskListViewModel.getHigh()
+                    5 -> taskListViewModel.getCourseSort()
                 }
 
                 // STUPID OBSERVER
@@ -193,8 +195,8 @@ class TaskListFragment : Fragment() {
             Log.i(TAG, "${task.personalDeadlineDate}")
             Log.i(TAG, "${task.personalDeadlineTime}")
 
-            finalDeadline.text = df1.toString() + " " + df2.toString()
-            personalDeadline.text = df3.toString() + " " + df4.toString()
+            finalDeadline.text = "Due Date: " + df1.toString() + " " + df2.toString()
+            personalDeadline.text = "Personal: " + df3.toString() + " " + df4.toString()
 
             when(task.priority) {
                 "Low Priority" -> taskPriority.setTextColor(Color.parseColor("#009933"))
