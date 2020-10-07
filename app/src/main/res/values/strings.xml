@@ -21,6 +21,8 @@
     <string name="time"> Time </string>
     <string name="frequency"> Frequency </string>
     <string name="content_desc"> TODO </string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_prompt">Welcome to STM! Sign In via Google</string>
 
     <string-array name="priority_array">
         <item>Low Priority</item>
