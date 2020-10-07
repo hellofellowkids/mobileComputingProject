@@ -183,20 +183,27 @@ class TaskListFragment : Fragment() {
             courseName.text = this.task.courseName
             taskPriority.text = this.task.priority
 
+            if(task.courseName == "") {
+                courseName.text = "No Course"
+                courseName.setTextColor(Color.parseColor("#C0C0C0"))
+            }
+
             // date + time information
             val df1 = DateFormat.format("EEE MMM dd, yyyy", task.finalDeadlineDate)
             val df2 = DateFormat.format("hh:mm a", task.finalDeadlineTime)
             val df3 = DateFormat.format("EEE MMM dd, yyyy", task.personalDeadlineDate)
             val df4 = DateFormat.format("hh:mm a", task.personalDeadlineTime)
 
-            Log.i(TAG, "---------------------------------")
-            Log.i(TAG, "${task.finalDeadlineDate}")
-            Log.i(TAG, "${task.finalDeadlineTime}")
-            Log.i(TAG, "${task.personalDeadlineDate}")
-            Log.i(TAG, "${task.personalDeadlineTime}")
-
             finalDeadline.text = "Due Date: " + df1.toString() + " " + df2.toString()
-            personalDeadline.text = "Personal: " + df3.toString() + " " + df4.toString()
+
+            if(task.personalDeadlineDate == task.finalDeadlineDate &&
+                    task.personalDeadlineTime == task.finalDeadlineTime) {
+                personalDeadline.text = "Personal: ---"
+                personalDeadline.setTextColor(Color.parseColor("#C0C0C0"))
+            }
+            else {
+                personalDeadline.text = "Personal: " + df3.toString() + " " + df4.toString()
+            }
 
             when(task.priority) {
                 "Low Priority" -> taskPriority.setTextColor(Color.parseColor("#009933"))

@@ -1,7 +1,6 @@
 package com.bignerdranch.android.mobilecomputingproject
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -111,6 +110,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         if(arguments != null) {
             val passedTaskID: UUID = arguments?.getSerializable(ARG_EDIT_TASK_ID) as UUID
             Log.d(TAG, "args bundle task ID: $passedTaskID")
+            addTaskViewModel.removeChecks() // remove any restraints on data
             addTaskViewModel.load(passedTaskID)
 
             addTaskViewModel.taskLiveData.observe(
@@ -140,6 +140,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
 
             override fun onTextChanged(sequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 addTaskViewModel.newTask.taskName = sequence.toString()
+                addTaskViewModel.taskNameCheck = true
             }
         })
 
@@ -172,31 +173,52 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         // Final Deadline Selection - Time
         dueTimeSelect.setOnClickListener {
             // Log.d(TAG, "Select due time for deadline")
-            TimePickerFragment.newInstance(addTaskViewModel.newTask.finalDeadlineTime, 1)
-                .apply {
-                    setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
-                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
-                }
+
+            if(addTaskViewModel.deadlineDateCheck) {
+                TimePickerFragment.newInstance(addTaskViewModel.newTask.finalDeadlineTime, 1)
+                    .apply {
+                        setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
+                        show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
+                    }
+            }
+
+            else {
+                Toast.makeText(activity,"Please select a due date FIRST", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Personal Deadline Selection - Date
         personDateSelect.setOnClickListener {
             // Log.d(TAG, "Select due date for personal")
-            DatePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineDate, 2)
-                .apply {
-                    setTargetFragment(this@AddTaskFragment, REQUEST_DATE)
-                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_DATE)
-                }
+            if(addTaskViewModel.deadlineDateCheck) {
+                DatePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineDate, 2)
+                    .apply {
+                        setTargetFragment(this@AddTaskFragment, REQUEST_DATE)
+                        show(this@AddTaskFragment.requireFragmentManager(), DIALOG_DATE)
+                    }
+            }
+            else {
+                Toast.makeText(activity,"Please select a due date FIRST", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Personal Deadline Selection - Time
         personTimeSelect.setOnClickListener {
             // Log.d(TAG, "Select due time for personal")
-            TimePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineTime, 2)
-                .apply {
-                    setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
-                    show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
-                }
+            if(addTaskViewModel.personalDateCheck) {
+                TimePickerFragment.newInstance(addTaskViewModel.newTask.personalDeadlineTime, 2)
+                    .apply {
+                        setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
+                        show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
+                    }
+            }
+            else if(!addTaskViewModel.deadlineDateCheck) {
+                Toast.makeText(activity,"Please select a due date FIRST", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(activity,"Please select a personal date FIRST", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         // <-- button
@@ -216,8 +238,19 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 callbacks?.onBackPressed()
             }
              else {
-                addTaskViewModel.addTask()
-                callbacks?.onBackPressed()
+
+                if(addTaskViewModel.deadlineDateCheck && addTaskViewModel.taskNameCheck) {
+                    addTaskViewModel.addTask()
+                    callbacks?.onBackPressed()
+                }
+
+                else if (!addTaskViewModel.taskNameCheck){
+                    Toast.makeText(activity,"Please provide name to task", Toast.LENGTH_SHORT).show()
+                }
+
+                else if (!addTaskViewModel.deadlineDateCheck){
+                    Toast.makeText(activity,"Please select a due date", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -248,10 +281,30 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         Log.i(TAG, "Protocol: $protocol and Date: $date")
         when (protocol) {
             1 ->  {
+                // Set dates
                 addTaskViewModel.newTask.finalDeadlineDate = date
+                addTaskViewModel.newTask.personalDeadlineDate = date
+
+                // Format text
                 val df = DateFormat.format("EEE MMM dd, yyyy", date)
-                // Log.i(TAG, "df = $df")
                 addDueDate.text = df
+
+                // remove check
+                addTaskViewModel.deadlineDateCheck = true
+
+                date.hours = 23
+                date.minutes = 59
+                date.seconds = 0
+
+                addTaskViewModel.newTask.finalDeadlineTime = date
+                addTaskViewModel.newTask.personalDeadlineTime = date
+
+                val df2 = DateFormat.format("hh:mm a", date)
+                // Log.i(TAG, "df = $df")
+                addDueTime.text = df2
+
+                addPersonalDate.text = "---"
+                addPersonalTime.text = "---"
 
             }
             2 ->  {
@@ -259,6 +312,9 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 val df = DateFormat.format("EEE MMM dd, yyyy", date)
                 // Log.i(TAG, "df = $df")
                 addPersonalDate.text = df
+
+                // remove check
+                addTaskViewModel.personalDateCheck = true
             }
         }
     }
@@ -271,6 +327,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 val df = DateFormat.format("hh:mm a", time)
                 // Log.i(TAG, "df = $df")
                 addDueTime.text = df
+
             }
             2 -> {
                 addTaskViewModel.newTask.personalDeadlineTime = time
@@ -308,10 +365,18 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         val df3 = DateFormat.format("hh:mm a", addTaskViewModel.newTask.finalDeadlineTime)
         val df4 = DateFormat.format("hh:mm a", addTaskViewModel.newTask.personalDeadlineTime)
         // Log.i(TAG, "df = $df")
+
         addDueDate.text = df1
         addDueTime.text = df3
-        addPersonalDate.text = df2
-        addPersonalTime.text = df4
+
+        if(df1 == df2 && df3 == df4) {
+            addPersonalDate.text = "---"
+            addPersonalTime.text = "---"
+        }
+        else {
+            addPersonalDate.text = df2
+            addPersonalTime.text = df4
+        }
 
         when(addTaskViewModel.newTask.priority) {
             "Low Priority" -> addPrioritySpinner.setSelection(0)

@@ -13,6 +13,16 @@ class AddTaskViewModel : ViewModel(){
     private val taskRepository = TaskRepository.get()
     var newTask = Task()
 
+    var deadlineDateCheck : Boolean = false
+    var personalDateCheck : Boolean = false
+    var taskNameCheck : Boolean = false
+
+    fun removeChecks() {
+        deadlineDateCheck = true
+        taskNameCheck = true
+        personalDateCheck = true
+    }
+
     // insert task into database
     fun addTask() {
         taskRepository.addTask(newTask)

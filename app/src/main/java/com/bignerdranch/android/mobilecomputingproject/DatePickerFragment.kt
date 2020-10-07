@@ -39,13 +39,21 @@ class DatePickerFragment : DialogFragment() {
         val initialMonth = calendar.get(Calendar.MONTH)
         val initialDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(
+        val dp = DatePickerDialog(
             requireContext(),
             dateListener,
             initialYear,
             initialMonth,
             initialDay
         )
+
+        dp.datePicker.minDate = Date().time
+        // calling from personal
+        if(protocol == 2) {
+            dp.datePicker.maxDate = date.time
+        }
+
+        return dp
     }
 
     companion object {

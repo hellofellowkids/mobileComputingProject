@@ -131,8 +131,15 @@ class TaskFragment : Fragment() {
         // Date + Time Info
         dueDate.text = df1.toString()
         dueTime.text = df2.toString()
-        personalDate.text = df3.toString()
-        personalTime.text = df4.toString()
+
+        if(df1 == df3 && df2 == df4) {
+            personalDate.text = "---"
+            personalTime.text = "---"
+        }
+        else {
+            personalDate.text = df3.toString()
+            personalTime.text = df4.toString()
+        }
 
         reminder.text =  "---" // task.reminderFrequency.toString() //This is the date when the notification will go out
 
