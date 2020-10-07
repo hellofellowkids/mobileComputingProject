@@ -16,6 +16,14 @@ class TaskListViewModel : ViewModel(){
         taskListLiveData = taskRepository.getCompleteTasks()
     }
 
+    fun switchDeadlineSort() {
+        taskListLiveData = taskRepository.getDeadlineSorted()
+    }
+
+    fun switchPersonalSort() {
+        taskListLiveData = taskRepository.getPersonalSorted()
+    }
+
 
     /*
     fun addTask(task: Task) {

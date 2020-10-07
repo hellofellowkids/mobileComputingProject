@@ -24,6 +24,11 @@ class TaskRepository private constructor(context: Context) {
 
     fun getCompleteTasks(): LiveData<List<Task>> = taskDao.getCompleteTasks()
 
+    fun getPersonalSorted(): LiveData<List<Task>> = taskDao.getPersonalSorted()
+
+    fun getDeadlineSorted(): LiveData<List<Task>> = taskDao.getDeadlineSorted()
+
+
     fun getTask(id: UUID): LiveData<Task?> = taskDao.getTask(id)
 
     fun updateTask(task: Task) {

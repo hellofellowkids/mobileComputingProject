@@ -108,8 +108,10 @@ class TaskListFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d(TAG, "Selected item from spinner position = $position")
                 when(position) {
-                    0 -> taskListViewModel.switchIncomplete()// Log.d(TAG, "Switch incomplete")
-                    1 -> taskListViewModel.switchComplete()// Log.d(TAG, "Switch complete")
+                    0 -> taskListViewModel.switchIncomplete()
+                    1 -> taskListViewModel.switchComplete()
+                    2 -> taskListViewModel.switchDeadlineSort()
+                    3 -> taskListViewModel.switchPersonalSort()
                 }
 
                 // STUPID OBSERVER
