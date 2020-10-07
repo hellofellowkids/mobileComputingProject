@@ -2,6 +2,7 @@ package com.bignerdranch.android.mobilecomputingproject
 
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.mobilecomputingproject.database.TaskRepository
+import java.io.File
 
 class TaskListViewModel : ViewModel(){
 
@@ -39,6 +40,10 @@ class TaskListViewModel : ViewModel(){
 
     fun getCourseSort() {
         taskListLiveData = taskRepository.getCourseSort()
+    }
+
+    fun getPhotoFile(task: Task) : File {
+        return taskRepository.getPhotoFile(task)
     }
 
 

@@ -22,7 +22,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="mobileComputingProject.fileprovider"
+            android:authorities="com.bignerdranch.android.mobileComputingProject.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

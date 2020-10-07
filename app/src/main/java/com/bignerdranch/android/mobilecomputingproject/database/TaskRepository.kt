@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.bignerdranch.android.mobilecomputingproject.Task
+import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -19,6 +20,9 @@ class TaskRepository private constructor(context: Context) {
 
     private val taskDao = database.taskDao()
     private val executor = Executors.newSingleThreadExecutor()
+    private val filesDir = context.applicationContext.filesDir
+
+    // get from database function
 
     fun getIncompleteTasks(): LiveData<List<Task>> = taskDao.getIncompleteTasks()
 
@@ -34,10 +38,11 @@ class TaskRepository private constructor(context: Context) {
 
     fun getLowPriority(): LiveData<List<Task>> = taskDao.getLowPriority()
 
-
     fun getCourseSort(): LiveData<List<Task>> = taskDao.getCourseSort()
 
     fun getTask(id: UUID): LiveData<Task?> = taskDao.getTask(id)
+
+    // update database function
 
     fun updateTask(task: Task) {
         executor.execute {
@@ -45,17 +50,24 @@ class TaskRepository private constructor(context: Context) {
         }
     }
 
+    // insert database function
+
     fun addTask(task: Task) {
         executor.execute {
             taskDao.addTask(task)
         }
     }
 
+    // delete database function
+
     fun deleteTask(task: Task) {
         executor.execute {
             taskDao.deleteTask(task.taskID)
         }
     }
+
+    // get photo from directory
+    fun getPhotoFile(task: Task) : File = File(filesDir, task.photoFileName)
 
     companion object {
         private var INSTANCE: TaskRepository? = null

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.mobilecomputingproject.database.TaskRepository
+import java.io.File
 import java.util.*
 
 class TaskDetailViewModel() : ViewModel() {
@@ -27,5 +28,9 @@ class TaskDetailViewModel() : ViewModel() {
 
     fun deleteTask(task : Task) {
         taskRepository.deleteTask(task)
+    }
+
+    fun getPhotoFile(task: Task) : File {
+        return taskRepository.getPhotoFile(task)
     }
 }
