@@ -6,7 +6,16 @@ import com.bignerdranch.android.mobilecomputingproject.database.TaskRepository
 class TaskListViewModel : ViewModel(){
 
     private val taskRepository = TaskRepository.get()
-    val taskListLiveData = taskRepository.getTasks()
+    var taskListLiveData = taskRepository.getIncompleteTasks()
+
+    fun switchIncomplete() {
+        taskListLiveData = taskRepository.getIncompleteTasks()
+    }
+
+    fun switchComplete() {
+        taskListLiveData = taskRepository.getCompleteTasks()
+    }
+
 
     /*
     fun addTask(task: Task) {

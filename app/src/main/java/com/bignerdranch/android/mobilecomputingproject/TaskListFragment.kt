@@ -107,8 +107,21 @@ class TaskListFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d(TAG, "Selected item from spinner position = $position")
-            }
+                when(position) {
+                    0 -> taskListViewModel.switchIncomplete()// Log.d(TAG, "Switch incomplete")
+                    1 -> taskListViewModel.switchComplete()// Log.d(TAG, "Switch complete")
+                }
 
+                // STUPID OBSERVER
+                taskListViewModel.taskListLiveData.observe(
+                    viewLifecycleOwner,
+                    Observer { tasks ->
+                        tasks?.let {
+                            Log.i(TAG, "Got ${tasks.size} tasks")
+                            updateUI(tasks)
+                        }
+                    }) // end of observer
+            }
         }
 
 

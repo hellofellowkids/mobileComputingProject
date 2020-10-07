@@ -29,7 +29,8 @@
     </string-array>
 
     <string-array name="sort_array">
-        <item>Sort By…</item>
+        <item>Incomplete</item>
+        <item>Complete</item>
         <item>By Due Date</item>
         <item>By Personal Due Date</item>
     </string-array>
