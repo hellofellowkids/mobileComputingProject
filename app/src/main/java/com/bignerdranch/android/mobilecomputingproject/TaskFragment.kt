@@ -195,8 +195,6 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
                 show(this@TaskFragment.requireFragmentManager(), DIALOG_ALERT)
             }
 
-            // go back to list view
-            // callbacks?.onBackArrow()
         }
     }
 
@@ -208,6 +206,17 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
     override fun onDetach() {
         super.onDetach()
         callbacks = null
+        requireActivity().revokeUriPermission(photoUri,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQUEST_PHOTO) {
+            requireActivity().revokeUriPermission(photoUri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        }
     }
 
     override fun onPositiveClick() {
@@ -239,6 +248,8 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
         }
 
         startActivityForResult(captureImage, REQUEST_PHOTO)
+
+        // callbacks?.onBackArrow()
     }
 
     override fun onNegativeClick() {

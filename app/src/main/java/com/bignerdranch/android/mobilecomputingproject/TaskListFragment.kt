@@ -214,6 +214,15 @@ class TaskListFragment : Fragment() {
                 "Medium Priority" -> taskPriority.setTextColor(Color.parseColor("#C6B373"))
                 "High Priority" -> taskPriority.setTextColor(Color.parseColor("#ff0000"))
             }
+
+            // Related to pictures
+            val photoFile = taskListViewModel.getPhotoFile(task)
+            if (photoFile.exists()) {
+                val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+                assignPic.setImageBitmap(bitmap)
+            } else {
+                assignPic.setImageDrawable(null)
+            }
         }
 
         override fun onClick(v: View) {
