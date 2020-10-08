@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "999077378557-4nq4bguacaaa6s86f62dt3obp115s45h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.android.mobilecomputingproject",
+            "certificate_hash": "94a9c5e2ce2a390c6e6d0f0679866c5dd65fa306"
+          }
+        },
+        {
+          "client_id": "999077378557-q4hg0mt7t19lbdph3cu36e1jusohc6s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.android.mobilecomputingproject",
+            "certificate_hash": "b6be82be353df7eb9bcc5fc393458aef7f21133f"
+          }
+        },
+        {
           "client_id": "999077378557-4sqh8qbum319vd2i538vfd2002qfnruj.apps.googleusercontent.com",
           "client_type": 3
         }

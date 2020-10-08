@@ -4,7 +4,7 @@
     <string name="task_name">Task Name</string>
     <string name="enter_title">Enter a name for the task</string>
     <string name="enter_course">Enter a course or subject for the task</string>
-    <string name= "date_due_select">Select the due date </string>
+    <string name="date_due_select">Select the due date </string>
     <string name="date_personal_select">Select the personal due date</string>
     <string name="course_name">Course Name</string>
     <string name="ok_task">Add Task</string>
@@ -40,5 +40,6 @@
         <item>Low Priority</item>
         <item>Course / Subject </item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
