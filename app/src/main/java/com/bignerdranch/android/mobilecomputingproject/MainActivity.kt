@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(),
             startFragmentBasedActivities()
         }
         else {
-            Log.d(TAG, "No User found in onStart()")   
+            Log.d(TAG, "No User found in onStart()")
         }
 
     }
