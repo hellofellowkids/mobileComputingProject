@@ -15,15 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "999077378557-u30979417obniv2lkms8f9r9s7qvgjlg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bignerdranch.android.mobilecomputingproject",
-            "certificate_hash": "94a9c5e2ce2a390c6e6d0f0679866c5dd65fa306"
-          }
-        },
-        {
-          "client_id": "999077378557-4sqh8qbum319vd2i538vfd2002qfnruj.apps.googleusercontent.com",
+          "client_id": "548998436678-g7jc7i780v7q0cs05kt6hlo20n29ldnr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
