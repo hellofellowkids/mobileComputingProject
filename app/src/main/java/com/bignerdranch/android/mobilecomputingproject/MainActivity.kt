@@ -1,5 +1,6 @@
 package com.bignerdranch.android.mobilecomputingproject
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -84,8 +85,8 @@ class MainActivity : AppCompatActivity(),
     // Fragment Code
     private fun startFragmentBasedActivities() {
         setContentView(R.layout.activity_main)
-       val currentFragment =
-           supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
        if (currentFragment == null) {
            val fragment = TaskListFragment.newInstance()
@@ -94,7 +95,13 @@ class MainActivity : AppCompatActivity(),
                .add(R.id.fragment_container, fragment)
                .commit()
        }
-
+        else {
+           val fragment = TaskListFragment.newInstance(true)
+           supportFragmentManager
+               .beginTransaction()
+               .replace(R.id.fragment_container, fragment)
+               .commit()
+       }
     }
 
 
@@ -154,6 +161,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSignOut() {
-        super.onBackPressed()
+        // super.onBackPressed()
+        // startFragmentBasedActivities()
+        recreate()
     }
 }

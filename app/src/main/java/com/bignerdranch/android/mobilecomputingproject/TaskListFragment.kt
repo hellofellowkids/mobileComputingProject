@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val TAG = "TaskListFragment"
+private const val ARG_SIGN_IN = "sign-in-boolean"
 
 class TaskListFragment : Fragment() {
 
@@ -55,6 +56,7 @@ class TaskListFragment : Fragment() {
     // network code
     private lateinit var signOutButton : Button
     private lateinit var mGoogleSignInClient : GoogleSignInClient
+    private var signInCheck : Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -92,9 +94,10 @@ class TaskListFragment : Fragment() {
 
         val account = GoogleSignIn.getLastSignedInAccount(activity)
 
-        if (account != null){
+        if (account != null && !signInCheck && arguments == null) {
             val personName = "Welcome " + account.displayName
             Toast.makeText(activity, personName, Toast.LENGTH_SHORT).show()
+            signInCheck = true
         }
 
 
@@ -311,6 +314,14 @@ class TaskListFragment : Fragment() {
     companion object {
         fun newInstance(): TaskListFragment {
             return TaskListFragment()
+        }
+        fun newInstance(alreadySignIn : Boolean): TaskListFragment {
+            val args = Bundle().apply {
+                putBoolean(ARG_SIGN_IN, alreadySignIn)
+            }
+            return TaskListFragment().apply {
+                arguments = args
+            }
         }
     }
 }
