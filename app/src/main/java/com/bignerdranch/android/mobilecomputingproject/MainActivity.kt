@@ -153,4 +153,7 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    override fun onSignOut() {
+        super.onBackPressed()
+    }
 }

@@ -216,6 +216,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
         if(requestCode == REQUEST_PHOTO) {
             requireActivity().revokeUriPermission(photoUri,
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            // Toast.makeText(activity, "Photo taken successfully! Head back to your list", Toast.LENGTH_SHORT).show()
         }
     }
 

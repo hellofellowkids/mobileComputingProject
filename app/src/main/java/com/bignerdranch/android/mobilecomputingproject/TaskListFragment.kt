@@ -16,7 +16,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.w3c.dom.Text
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -28,6 +33,7 @@ class TaskListFragment : Fragment() {
     interface Callbacks {
         fun onTaskSelected(taskID: UUID)
         fun onAddTask()
+        fun onSignOut()
     }
 
     private var callbacks: Callbacks? = null
@@ -44,7 +50,11 @@ class TaskListFragment : Fragment() {
     // widgets outside of recycle view
     private lateinit var addTaskButton : FloatingActionButton
     private lateinit var taskFilter : Spinner
+    private lateinit var taskPrompt : TextView
 
+    // network code
+    private lateinit var signOutButton : Button
+    private lateinit var mGoogleSignInClient : GoogleSignInClient
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,6 +74,7 @@ class TaskListFragment : Fragment() {
         taskRecycleView = view.findViewById(R.id.task_recycler_view) as RecyclerView
         addTaskButton = view.findViewById(R.id.add_task_button) as FloatingActionButton
         taskFilter = view.findViewById(R.id.spinner_task_filter) as Spinner
+        taskPrompt = view.findViewById(R.id.no_message_prompt) as TextView
 
         // setup recycle view
         taskRecycleView.layoutManager = LinearLayoutManager(context)
@@ -71,6 +82,21 @@ class TaskListFragment : Fragment() {
 
         // setup spinner
         setupSpinnerAdapter()
+
+        // network code
+        signOutButton = view.findViewById(R.id.sign_out_button) as Button
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }!!
+
+        val account = GoogleSignIn.getLastSignedInAccount(activity)
+
+        if (account != null){
+            val personName = "Welcome " + account.displayName
+            Toast.makeText(activity, personName, Toast.LENGTH_SHORT).show()
+        }
+
 
         return view
     }
@@ -89,6 +115,14 @@ class TaskListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        // network code
+        signOutButton.setOnClickListener {
+            mGoogleSignInClient.signOut().addOnCompleteListener {
+                Toast.makeText(activity, "Successfully signed out!", Toast.LENGTH_SHORT).show()
+                callbacks?.onSignOut()
+            }
+        }
 
         // + button
         addTaskButton.setOnClickListener{
@@ -125,6 +159,7 @@ class TaskListFragment : Fragment() {
                     Observer { tasks ->
                         tasks?.let {
                             Log.i(TAG, "Got ${tasks.size} tasks")
+                            updatePrompt(tasks.size, position)
                             updateUI(tasks)
                         }
                     }) // end of observer
@@ -142,6 +177,25 @@ class TaskListFragment : Fragment() {
     private fun updateUI(tasks: List<Task>) {
         adapter = TaskAdapter(tasks)
         taskRecycleView.adapter = adapter
+    }
+
+    private fun updatePrompt(taskSize : Int, position : Int){
+        if(taskSize == 0) {
+            when(position) {
+                1 -> taskPrompt.text = "No completed tasks. You should get to work!"
+                4 -> taskPrompt.text = "No incomplete tasks with high priority."
+                5 -> taskPrompt.text = "No incomplete tasks with medium priority."
+                6 -> taskPrompt.text = "No incomplete tasks with low priority."
+                else -> {
+                    taskPrompt.text = "No incomplete tasks. Press the '+' to add one"
+                }
+            }
+
+        }
+        else {
+            taskPrompt.text = ""
+        }
+
     }
 
     // setup spinner

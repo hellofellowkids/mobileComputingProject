@@ -64,21 +64,28 @@
         app:backgroundTint="@color/crimson" />
     <!-- android:src="@drawable/ic_baseline_add_24"/> -->
 
-    <!--
     <TextView
         android:id="@+id/no_message_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="324dp"
+        android:layout_height="54dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="117dp"
-        android:layout_marginTop="567dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="342dp"
         android:layout_marginEnd="19dp"
-        android:layout_marginBottom="73dp"
+        android:layout_marginBottom="263dp"
         tools:text="No Tasks in list. Press '+' button to add task" />
-     -->
+
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="558dp"
+        android:text="Sign Out"
+        />
 
 
 </RelativeLayout>
