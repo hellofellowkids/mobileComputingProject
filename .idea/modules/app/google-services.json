@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "999077378557",
+    "firebase_url": "https://stm-mc.firebaseio.com",
+    "project_id": "stm-mc",
+    "storage_bucket": "stm-mc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999077378557:android:b998173a9c9ca7dbbfc194",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.android.mobilecomputingproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999077378557-4nq4bguacaaa6s86f62dt3obp115s45h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.android.mobilecomputingproject",
+            "certificate_hash": "94a9c5e2ce2a390c6e6d0f0679866c5dd65fa306"
+          }
+        },
+        {
+          "client_id": "999077378557-q4hg0mt7t19lbdph3cu36e1jusohc6s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.android.mobilecomputingproject",
+            "certificate_hash": "b6be82be353df7eb9bcc5fc393458aef7f21133f"
+          }
+        },
+        {
+          "client_id": "999077378557-4sqh8qbum319vd2i538vfd2002qfnruj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFc9TqmG2c3upiuP7T7Kr8q98Q6tJPs7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999077378557-4sqh8qbum319vd2i538vfd2002qfnruj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
