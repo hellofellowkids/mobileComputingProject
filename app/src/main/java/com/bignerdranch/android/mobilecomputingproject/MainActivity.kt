@@ -191,8 +191,8 @@ class MainActivity : AppCompatActivity(),
 
         // setting up the alarm
         val alertTime = Calendar.getInstance()
-        alertTime.set(Calendar.HOUR_OF_DAY, 11)
-        alertTime.set(Calendar.MINUTE, 1)
+        alertTime.set(Calendar.HOUR_OF_DAY, 9)
+        alertTime.set(Calendar.MINUTE, 0)
         alertTime.set(Calendar.SECOND, 0)
 
         // starting the alarm
