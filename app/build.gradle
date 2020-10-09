@@ -44,4 +44,7 @@ dependencies {
 
     // Google Play Authentication
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+
+    // Worker Class
+    implementation "android.arch.work:work-runtime:1.0.1"
 }

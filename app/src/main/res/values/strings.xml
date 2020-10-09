@@ -23,6 +23,8 @@
     <string name="content_desc"> TODO </string>
     <string name="sign_in">Sign In</string>
     <string name="sign_in_prompt">Welcome to STM! Sign In via Google</string>
+    <string name="notification_channel_name"> Daily Task Reminder </string>
+    <string name="daily_reminder_title">STM Daily Reminder</string>
 
     <string-array name="priority_array">
         <item>Low Priority</item>
