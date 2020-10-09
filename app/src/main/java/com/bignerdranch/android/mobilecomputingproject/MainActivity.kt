@@ -191,20 +191,20 @@ class MainActivity : AppCompatActivity(),
 
         // setting up the alarm
         val alertTime = Calendar.getInstance()
-        alertTime.set(Calendar.HOUR_OF_DAY, 9)
-        alertTime.set(Calendar.MINUTE, 0)
+        alertTime.set(Calendar.HOUR_OF_DAY, 11)
+        alertTime.set(Calendar.MINUTE, 1)
         alertTime.set(Calendar.SECOND, 0)
 
         // starting the alarm
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertReceiver::class.java)
         intent.putExtra("TASKS", taskNum)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+        intent.action = "DailyAlarm"
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (alertTime.before(Calendar.getInstance())) {
             alertTime.add(Calendar.DATE, 1)
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alertTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
 
     }
-
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mobileComputingProject</string>
+    <string name="app_name">STM</string>
     <string name="add_assignment_button">ADD ASSIGNMENT</string>
     <string name="task_name">Task Name</string>
     <string name="enter_title">Enter a name for the task</string>
@@ -34,7 +34,7 @@
 
     <string-array name="sort_array">
         <item>Incomplete</item>
-        <item>Complete</item>
+        <item>Completed</item>
         <item>By Due Date</item>
         <item>By Personal Due Date</item>
         <item>High Priority</item>

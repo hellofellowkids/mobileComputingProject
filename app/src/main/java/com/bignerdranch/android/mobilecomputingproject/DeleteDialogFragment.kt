@@ -8,42 +8,40 @@ import androidx.fragment.app.DialogFragment
 import java.util.*
 
 
-class AlertDialogFragment : DialogFragment() {
+class DeleteDialogFragment : DialogFragment() {
 
     interface Callbacks {
-        fun onPositiveClick()
-        fun onNegativeClick()
+        fun onPositiveDeleteClick()
+        fun onNegativeDeleteClick()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ad = AlertDialog.Builder(requireContext())
-        ad.setTitle("Take a photo of task")
-        ad.setMessage("Would you like to take a photo of the your hard work?")
+        ad.setTitle("Deleting task")
+        ad.setMessage("Are you sure you want to delete this task?")
 
-        ad.setPositiveButton(R.string.yes ,
+        ad.setPositiveButton("Yes" ,
             DialogInterface.OnClickListener { dialog, whichButton ->
                 targetFragment?.let { fragment ->
-                    (fragment as AlertDialogFragment.Callbacks).onPositiveClick()
+                    (fragment as DeleteDialogFragment.Callbacks).onPositiveDeleteClick()
                 }
             }
         )
 
-        ad.setNegativeButton(R.string.no ,
+        ad.setNegativeButton("No" ,
             DialogInterface.OnClickListener { dialog, whichButton ->
                 targetFragment?.let { fragment ->
-                    (fragment as AlertDialogFragment.Callbacks).onNegativeClick()
+                    (fragment as DeleteDialogFragment.Callbacks).onNegativeDeleteClick()
                 }
             }
         )
-
-
 
         return ad.create();
     }
 
     companion object {
-        fun newInstance(): AlertDialogFragment {
-            return AlertDialogFragment()
+        fun newInstance(): DeleteDialogFragment {
+            return DeleteDialogFragment()
         }
     }
 }

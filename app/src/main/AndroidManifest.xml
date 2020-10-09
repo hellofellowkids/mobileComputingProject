@@ -37,6 +37,9 @@
         </provider>
 
         <receiver android:name=".AlertReceiver">
+            <intent-filter>
+                <action android:name="DailyAlarm"/>
+            </intent-filter>
         </receiver>
 
     </application>

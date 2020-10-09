@@ -49,13 +49,13 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     private lateinit var personTimeSelect : LinearLayout
 
 
-    /* NOT SURE ABOUT THESE AND IF THEY WILL REMAIN TEXTVIEWS */
     private lateinit var addDueDate: TextView
     private lateinit var addDueTime: TextView
     private lateinit var addPersonalDate: TextView
     private lateinit var addPersonalTime: TextView
     private lateinit var addFrequencyText: TextView
     private lateinit var addReminderTime: TextView
+    private lateinit var headerText : TextView
 
     private lateinit var addPrioritySpinner: Spinner
 
@@ -91,15 +91,13 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         addPersonalTime = view.findViewById(R.id.add_personal_time_text) as TextView
         addFrequencyText = view.findViewById(R.id.add_frequency_text) as TextView
         addReminderTime = view.findViewById(R.id.add_reminder_time_text) as TextView
+        headerText = view.findViewById(R.id.add_task_header) as TextView
         addPrioritySpinner = view.findViewById(R.id.spinner_priority) as Spinner
 
         Log.d(TAG, "New task ID: ${addTaskViewModel.newTask.taskID}")
 
         // setup spinner
         setupSpinnerAdapter()
-
-
-
 
         return view
     }
@@ -112,6 +110,8 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             Log.d(TAG, "args bundle task ID: $passedTaskID")
             addTaskViewModel.removeChecks() // remove any restraints on data
             addTaskViewModel.load(passedTaskID)
+
+            headerText.text = "Edit Task"
 
             addTaskViewModel.taskLiveData.observe(
                 viewLifecycleOwner,
@@ -309,6 +309,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             }
             2 ->  {
                 addTaskViewModel.newTask.personalDeadlineDate = date
+                addTaskViewModel.newTask.personalDeadlineTime = date
                 val df = DateFormat.format("EEE MMM dd, yyyy", date)
                 // Log.i(TAG, "df = $df")
                 addPersonalDate.text = df

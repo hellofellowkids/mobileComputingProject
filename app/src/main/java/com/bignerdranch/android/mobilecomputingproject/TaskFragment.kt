@@ -29,10 +29,12 @@ import java.util.*
 private const val TAG = "TaskFragment"
 private const val ARG_TASK_ID = "task_id"
 private const val DIALOG_ALERT = "DialogAlert"
+private const val DIALOG_DELETE = "DialogDelete"
 private const val REQUEST_ANSWER = 0
 private const val REQUEST_PHOTO = 1
+private const val REQUEST_DELETE = 2
 
-class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
+class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFragment.Callbacks {
 
     // Callbacks for fragment navigation
     interface Callbacks {
@@ -172,29 +174,50 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
 
         // delete icon on top right
         deleteIcon.setOnClickListener {
-            taskDetailViewModel.deleteTask(task)
-            callbacks?.onBackArrow()
+
+            // deletes task from database
+            // taskDetailViewModel.deleteTask(task)
+            // callbacks?.onBackArrow()
+
+            // Now prompt for deletion
+            DeleteDialogFragment.newInstance().apply {
+                setTargetFragment(this@TaskFragment, REQUEST_DELETE)
+                show(this@TaskFragment.requireFragmentManager(), DIALOG_DELETE)
+            }
+
         }
 
         // gear icons
         editSettingsButton.setOnClickListener {
             //We want to edit this task
             Log.d(TAG, "Edit Settings Button Clicked")
-            callbacks?.onEditSelected(task.taskID)
+
+            if(!task.complete) {
+                callbacks?.onEditSelected(task.taskID)
+            }
+            else {
+                Toast.makeText(activity, "You cannot edit a completed task", Toast.LENGTH_SHORT).show()
+            }
         }
 
         checkButton.setOnClickListener {
             //We want to complete this task
             Log.d(TAG, "Complete Button Clicked")
-            task.complete = true
-            taskDetailViewModel.saveTask(task)
 
-            // Now prompt for camera
-            AlertDialogFragment.newInstance().apply {
-                setTargetFragment(this@TaskFragment, REQUEST_ANSWER)
-                show(this@TaskFragment.requireFragmentManager(), DIALOG_ALERT)
+            if(!task.complete) {
+
+                task.complete = true
+                taskDetailViewModel.saveTask(task)
+
+                // Now prompt for camera
+                AlertDialogFragment.newInstance().apply {
+                    setTargetFragment(this@TaskFragment, REQUEST_ANSWER)
+                    show(this@TaskFragment.requireFragmentManager(), DIALOG_ALERT)
+                }
             }
-
+            else {
+                Toast.makeText(activity, "What more do you want to complete?", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -256,6 +279,16 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks {
     override fun onNegativeClick() {
         Log.d(TAG, "NO response!")
         callbacks?.onBackArrow()
+    }
+
+    override fun onPositiveDeleteClick() {
+        // deletes task and puts them back to list
+        taskDetailViewModel.deleteTask(task)
+        callbacks?.onBackArrow()
+    }
+
+    override fun onNegativeDeleteClick() {
+        // DO NOTHING SINCE DELETION WAS CANCELED
     }
 
     companion object {
