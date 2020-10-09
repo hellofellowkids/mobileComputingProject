@@ -14,7 +14,7 @@ class AlertReceiver : BroadcastReceiver() {
 
         Log.d(TAG, "Received Broadcast")
 
-        val taskNum = intent.extras?.getInt("TASKS")
+        // val taskNum = intent.extras?.getInt("TASKS")
 
         val resources = context.resources
         val notification = NotificationCompat

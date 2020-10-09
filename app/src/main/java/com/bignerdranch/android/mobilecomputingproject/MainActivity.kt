@@ -182,16 +182,12 @@ class MainActivity : AppCompatActivity(),
             Observer { tasks ->
                 tasks?.let {
                     Log.d(TAG, "We have ${tasks.size} incomplete tasks")
-                    // startAlarm(setupAlarmTime()) // guy's code
                     launchIntentNotification(tasks.size)
                 }
             })
     }
 
     private fun launchIntentNotification(taskNum : Int) {
-
-        // val intent = MainActivity.newIntent(context)
-        // val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         // setting up the alarm
         val alertTime = Calendar.getInstance()
@@ -209,54 +205,6 @@ class MainActivity : AppCompatActivity(),
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alertTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
 
-        /*
-        val resources = context.resources
-        val notification = NotificationCompat
-            .Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setTicker(resources.getString(R.string.daily_reminder_title))
-            .setSmallIcon(android.R.drawable.ic_menu_report_image)
-            .setContentTitle(resources.getString(R.string.daily_reminder_title))
-            .setContentText("You have $taskNum incomplete tasks")
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
-
-        val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(0, notification)
-
-        val broadcastedIntent = Intent(this, AlertReceiver::class.java)
-        broadcastedIntent.putExtra("TASKS", taskNum)
-        sendBroadcast(broadcastedIntent)
-
-         */
-    }
-
-
-    private fun setupAlarmTime() : Calendar {
-        val alertTime = Calendar.getInstance()
-        alertTime.set(Calendar.HOUR_OF_DAY, 12)
-        return alertTime
-    }
-
-    private fun startAlarm() {
-        // setting up the alarm
-        val alertTime = Calendar.getInstance()
-        alertTime.set(Calendar.HOUR_OF_DAY, 12)
-
-        // starting the alarm
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlertReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
-        if (alertTime.before(Calendar.getInstance())) {
-            alertTime.add(Calendar.DATE, 1)
-        }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alertTime.timeInMillis, pendingIntent)
-    }
-
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, MainActivity::class.java)
-        }
     }
 
 }
