@@ -212,10 +212,10 @@ class TaskListFragment : Fragment() {
             ArrayAdapter.createFromResource(
                 it,
                 R.array.sort_array,
-                android.R.layout.simple_spinner_item
+                R.layout.spinner_text2
             ).also { adapter ->
                 // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown2)
                 // Apply the adapter to the spinner
                 taskFilter.adapter = adapter
             }

@@ -82,9 +82,11 @@
         android:id="@+id/sign_out_button"
         android:layout_height="50dp"
         android:layout_width="100dp"
+        android:textColor="@color/white"
         android:layout_marginStart="50dp"
+        android:background="@color/crimson"
         android:layout_marginTop="558dp"
-        android:text="Sign Out"
+        android:text="@string/sign_out"
         />
 
 

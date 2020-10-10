@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(),
     val context=this
 
     private var mGoogleSignInClient: GoogleSignInClient? = null
-    private lateinit var signInButton : Button
+    private lateinit var signInButton : com.google.android.gms.common.SignInButton
 
     // Firebase functions
 
