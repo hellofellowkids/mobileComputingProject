@@ -36,7 +36,11 @@
                 android:resource="@xml/files" />
         </provider>
 
-        <receiver android:name=".AlertReceiver">
+        <receiver
+            android:name=".AlertReceiver"
+            android:enabled="true"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="DailyAlarm"/>
             </intent-filter>

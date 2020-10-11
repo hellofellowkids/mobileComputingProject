@@ -49,7 +49,7 @@ class DatePickerFragment : DialogFragment() {
 
         dp.datePicker.minDate = Date().time
         // calling from personal
-        if(protocol == 2) {
+        if(protocol == 2 || protocol == 3) {
             dp.datePicker.maxDate = date.time
         }
 

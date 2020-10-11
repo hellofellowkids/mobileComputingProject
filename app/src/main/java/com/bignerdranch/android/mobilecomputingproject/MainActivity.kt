@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
@@ -25,7 +26,6 @@ private const val RC_SIGN_IN = 0
 
 class MainActivity : AppCompatActivity(),
     TaskListFragment.Callbacks, AddTaskFragment.Callbacks, TaskFragment.Callbacks {
-    val context=this
 
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private lateinit var signInButton : com.google.android.gms.common.SignInButton
@@ -195,16 +195,35 @@ class MainActivity : AppCompatActivity(),
         alertTime.set(Calendar.MINUTE, 0)
         alertTime.set(Calendar.SECOND, 0)
 
+
         // starting the alarm
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertReceiver::class.java)
         intent.putExtra("TASKS", taskNum)
         intent.action = "DailyAlarm"
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        if (alertTime.before(Calendar.getInstance())) {
+         if (alertTime.before(Calendar.getInstance())) {
             alertTime.add(Calendar.DATE, 1)
-        }
+         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alertTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
 
+        Log.d(TAG, "Setup daily alarm")
+    }
+
+    override fun onSetReminder(reminderTime : Date, taskName : String) {
+        // setting up the alarm
+        val alertTime = Calendar.getInstance()
+        alertTime.time = reminderTime
+
+        // starting the alarm
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        intent.putExtra("NAME", taskName)
+        intent.action = "ReminderAlarm"
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alertTime.timeInMillis, pendingIntent)
+
+        Log.d(TAG, "We set a reminder for $taskName on $reminderTime")
     }
 }

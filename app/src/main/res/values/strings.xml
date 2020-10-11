@@ -19,13 +19,15 @@
     <string name="new_task"> New Task </string>
     <string name="date"> Date </string>
     <string name="time"> Time </string>
-    <string name="frequency"> Frequency </string>
+    <string name="reminder_prompt"> Reminder Time </string>
     <string name="content_desc"> TODO </string>
     <string name="sign_in">Sign In</string>
     <string name="sign_in_prompt">Welcome to  \n Student Task Manager (STM) </string>
     <string name="notification_channel_name"> Daily Task Reminder </string>
+    <string name="notification_channel_name2"> Task Reminders </string>
     <string name="daily_reminder_title">STM Daily Reminder</string>
     <string name="sign_out">Sign Out</string>
+    <string name="edit_task">Edit Task</string>
 
     <string-array name="priority_array">
         <item>Low Priority</item>

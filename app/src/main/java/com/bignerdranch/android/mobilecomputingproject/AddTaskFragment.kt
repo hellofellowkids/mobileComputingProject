@@ -1,6 +1,9 @@
 package com.bignerdranch.android.mobilecomputingproject
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,6 +32,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     // Callbacks for fragment navigation
     interface Callbacks {
         fun onBackPressed()
+        fun onSetReminder(reminderTime : Date, taskName : String)
     }
 
     private var callbacks: Callbacks? = null
@@ -47,14 +52,14 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     private lateinit var dueTimeSelect : LinearLayout
     private lateinit var personDateSelect : LinearLayout
     private lateinit var personTimeSelect : LinearLayout
+    private lateinit var reminderSelect : LinearLayout
 
 
     private lateinit var addDueDate: TextView
     private lateinit var addDueTime: TextView
     private lateinit var addPersonalDate: TextView
     private lateinit var addPersonalTime: TextView
-    private lateinit var addFrequencyText: TextView
-    private lateinit var addReminderTime: TextView
+    private lateinit var addReminderText: TextView
     private lateinit var headerText : TextView
 
     private lateinit var addPrioritySpinner: Spinner
@@ -83,14 +88,14 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         dueTimeSelect = view.findViewById(R.id.due_time_select) as LinearLayout
         personDateSelect = view.findViewById(R.id.personal_date_select) as LinearLayout
         personTimeSelect = view.findViewById(R.id.personal_time_select) as LinearLayout
+        reminderSelect = view.findViewById(R.id.alerts_date_select) as LinearLayout
 
         /* AGAIN NOT SURE ABOUT THESE */
         addDueDate = view.findViewById(R.id.add_due_date_text) as TextView
         addDueTime = view.findViewById(R.id.add_due_time_text) as TextView
         addPersonalDate = view.findViewById(R.id.add_personal_date_text) as TextView
         addPersonalTime = view.findViewById(R.id.add_personal_time_text) as TextView
-        addFrequencyText = view.findViewById(R.id.add_frequency_text) as TextView
-        addReminderTime = view.findViewById(R.id.add_reminder_time_text) as TextView
+        addReminderText = view.findViewById(R.id.add_reminder_text) as TextView
         headerText = view.findViewById(R.id.add_task_header) as TextView
         addPrioritySpinner = view.findViewById(R.id.spinner_priority) as Spinner
 
@@ -254,6 +259,21 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             }
         }
 
+        // Reminder Selection
+        reminderSelect.setOnClickListener {
+            Log.d(TAG, "Hit reminder button")
+            if(addTaskViewModel.deadlineDateCheck) {
+                DatePickerFragment.newInstance(addTaskViewModel.newTask.finalDeadlineDate, 3)
+                    .apply {
+                        setTargetFragment(this@AddTaskFragment, REQUEST_DATE)
+                        show(this@AddTaskFragment.requireFragmentManager(), DIALOG_DATE)
+                    }
+            }
+            else {
+                Toast.makeText(activity,"Please select a due date", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         // priority selection
         prioritySelection.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -298,6 +318,8 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
 
                 addTaskViewModel.newTask.finalDeadlineTime = date
                 addTaskViewModel.newTask.personalDeadlineTime = date
+                addTaskViewModel.newTask.reminderFrequency = date
+                addTaskViewModel.newTask.reminderTime = date
 
                 val df2 = DateFormat.format("hh:mm a", date)
                 // Log.i(TAG, "df = $df")
@@ -305,6 +327,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
 
                 addPersonalDate.text = "---"
                 addPersonalTime.text = "---"
+                addReminderText.text = "---"
 
             }
             2 ->  {
@@ -316,6 +339,18 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
 
                 // remove check
                 addTaskViewModel.personalDateCheck = true
+            }
+
+            3 -> {
+                // Do something
+                addTaskViewModel.newTask.reminderFrequency = date
+                addTaskViewModel.newTask.reminderTime = date
+
+                TimePickerFragment.newInstance(addTaskViewModel.newTask.reminderFrequency, 3)
+                    .apply {
+                        setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
+                        show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
+                    }
             }
         }
     }
@@ -335,6 +370,15 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 val df = DateFormat.format("hh:mm a", time)
                 // Log.i(TAG, "df = $df")
                 addPersonalTime.text = df
+            }
+
+            3 -> {
+                addTaskViewModel.newTask.reminderTime = time
+                val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", time)
+                addReminderText.text = df
+
+                // setup alarm
+                callbacks?.onSetReminder(time, addTaskViewModel.newTask.taskName)
             }
         }
     }
@@ -377,6 +421,11 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         else {
             addPersonalDate.text = df2
             addPersonalTime.text = df4
+        }
+
+        if(addTaskViewModel.newTask.personalDeadlineDate != addTaskViewModel.newTask.reminderFrequency) {
+            val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", addTaskViewModel.newTask.reminderFrequency)
+            addReminderText.text = df
         }
 
         when(addTaskViewModel.newTask.priority) {

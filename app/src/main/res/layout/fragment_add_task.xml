@@ -377,7 +377,7 @@ android:orientation="horizontal"
 
 <LinearLayout
     android:id="@+id/alerts_date_select"
-    android:layout_width="139dp"
+    android:layout_width="340dp"
     android:layout_height="match_parent"
     android:layout_marginStart="48dp"
     android:clickable="true"
@@ -388,10 +388,10 @@ android:orientation="horizontal"
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/frequency" />
+        android:text="@string/reminder_prompt" />
 
     <TextView
-        android:id="@+id/add_frequency_text"
+        android:id="@+id/add_reminder_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -400,36 +400,7 @@ android:orientation="horizontal"
 
 </LinearLayout>
 
-<View
-    android:layout_width="1dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:background="?android:attr/listDivider" />
 
-<LinearLayout
-    android:id="@+id/reminder_time_select"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:focusable="true">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/time"
-        />
-
-    <TextView
-        android:id="@+id/add_reminder_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:text="@string/placeholder_info"/>
-
-</LinearLayout>
 
 
 </LinearLayout>

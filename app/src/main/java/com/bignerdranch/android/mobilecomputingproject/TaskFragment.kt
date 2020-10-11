@@ -160,7 +160,19 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
             personalTime.text = df4.toString()
         }
 
-        reminder.text =  "---" // task.reminderFrequency.toString() //This is the date when the notification will go out
+        if(task.finalDeadlineDate != task.reminderTime) {
+            val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", task.reminderFrequency)
+            reminder.text = df
+
+            // if the reminder is outdated, change the color of it to indicate it
+            if(task.reminderTime < Date()) {
+                reminder.setTextColor(Color.parseColor("#0b498c"))
+            }
+
+        }
+        else {
+            reminder.text = "---" // task.reminderFrequency.toString() //This is the date when the notification will go out
+        }
 
     }
 
