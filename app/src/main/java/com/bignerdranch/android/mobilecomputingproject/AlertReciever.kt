@@ -17,13 +17,15 @@ class AlertReceiver : BroadcastReceiver() {
 
         Log.d(TAG, "Intent Action : ${intent.action}")
 
+        //If the receiver receives the DailyAlarm Intent
         if (intent.action.equals("DailyAlarm")) {
 
+            //Grab the number of incomplete tasks from the intent extra
             val taskNum = intent.getIntExtra("TASKS", -999)
             Log.d(TAG, "taskNum = $taskNum")
 
+            //If user has any incomplete tasks they will be notified so
             if (taskNum > 0) {
-
                 val resources = context.resources
                 val notification = NotificationCompat
                     .Builder(context, NOTIFICATION_CHANNEL_ID)
@@ -35,6 +37,7 @@ class AlertReceiver : BroadcastReceiver() {
 
                 val notificationManager = NotificationManagerCompat.from(context)
                 notificationManager.notify(0, notification)
+                //If the user has no incomplete tasks they will be notified so
             } else {
                 val resources = context.resources
                 val notification = NotificationCompat
@@ -50,10 +53,12 @@ class AlertReceiver : BroadcastReceiver() {
             }
         }
 
+        //If the receiver receives the ReminderAlarm that the user has set for individual tasks
         else if (intent.action.equals("ReminderAlarm")) {
             val taskName = intent.getStringExtra("NAME")
             Log.d(TAG, "taskName = $taskName")
 
+            //Will grab taskName from the intent extra and display following notification
             val resources = context.resources
             val notification = NotificationCompat
                 .Builder(context, NOTIFICATION_CHANNEL2_ID)

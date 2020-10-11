@@ -114,6 +114,7 @@ class TaskListFragment : Fragment() {
             viewLifecycleOwner,
             Observer { tasks ->
                 tasks?.let {
+                    //grabbing the tasks and updating the UI
                     Log.i(TAG, "Got ${tasks.size} tasks")
                     updateUI(tasks)
                 }
@@ -125,6 +126,7 @@ class TaskListFragment : Fragment() {
 
         // network code
         signOutButton.setOnClickListener {
+            //When user clicks the sign out button 
             mGoogleSignInClient.signOut().addOnCompleteListener {
                 Toast.makeText(activity, "Successfully signed out!", Toast.LENGTH_SHORT).show()
                 callbacks?.onSignOut()
@@ -160,7 +162,6 @@ class TaskListFragment : Fragment() {
                     7 -> taskListViewModel.getCourseSort()
                 }
 
-                // STUPID OBSERVER
                 taskListViewModel.taskListLiveData.observe(
                     viewLifecycleOwner,
                     Observer { tasks ->
@@ -188,6 +189,7 @@ class TaskListFragment : Fragment() {
 
     private fun updatePrompt(taskSize : Int, position : Int){
         if(taskSize == 0) {
+            //Will update prompts that appear on screen if there are no tasks for that selection
             when(position) {
                 1 -> taskPrompt.text = "No completed tasks. You should get to work!"
                 4 -> taskPrompt.text = "No incomplete tasks with high priority."

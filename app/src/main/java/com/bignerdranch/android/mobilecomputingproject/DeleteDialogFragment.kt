@@ -10,16 +10,19 @@ import java.util.*
 
 class DeleteDialogFragment : DialogFragment() {
 
+    //Will be implemented inside TaskFragment
     interface Callbacks {
         fun onPositiveDeleteClick()
         fun onNegativeDeleteClick()
     }
 
+    //Create dialog asking if the user is sure of deleting the desired task
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ad = AlertDialog.Builder(requireContext())
         ad.setTitle("Deleting task")
         ad.setMessage("Are you sure you want to delete this task?")
 
+        //If yes call onPositiveDeleteClick
         ad.setPositiveButton("Yes" ,
             DialogInterface.OnClickListener { dialog, whichButton ->
                 targetFragment?.let { fragment ->
@@ -28,6 +31,7 @@ class DeleteDialogFragment : DialogFragment() {
             }
         )
 
+        //If no call onNegativeDeleteClick
         ad.setNegativeButton("No" ,
             DialogInterface.OnClickListener { dialog, whichButton ->
                 targetFragment?.let { fragment ->

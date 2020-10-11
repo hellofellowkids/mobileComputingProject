@@ -27,19 +27,23 @@ private const val RC_SIGN_IN = 0
 class MainActivity : AppCompatActivity(),
     TaskListFragment.Callbacks, AddTaskFragment.Callbacks, TaskFragment.Callbacks {
 
+    // Creating a Google Client
     private var mGoogleSignInClient: GoogleSignInClient? = null
+
+    // Button for sign-in screen
     private lateinit var signInButton : com.google.android.gms.common.SignInButton
 
-    // Firebase functions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sign_in)
 
+        //creating the request to be signed in
         createRequest()
 
         signInButton = findViewById(R.id.sign_in_button)
 
+        //call sign in when sign in button clicked
         signInButton.setOnClickListener {
             signIn()
         }
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    //Will create a request to pop up the google sign in and then grab the user client
     private fun createRequest() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -57,6 +62,8 @@ class MainActivity : AppCompatActivity(),
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
+    //Will be called inside the sign-in button listener
+    //Will fire the signInIntent attempting to log in
     private fun signIn() {
         val signInIntent = mGoogleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -74,11 +81,13 @@ class MainActivity : AppCompatActivity(),
 
     private fun handleSignInResult(completedTask : Task<GoogleSignInAccount>){
         try {
+            //If sign in was successful
             val account = completedTask.getResult(ApiException::class.java)
             Log.d(TAG, "Successfully logged in!")
             // Call our Fragment Code
             startFragmentBasedActivities()
 
+            //If sign in failed
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -90,6 +99,7 @@ class MainActivity : AppCompatActivity(),
 
     // Fragment Code
     private fun startFragmentBasedActivities() {
+        //Regular view start up without sign in
         setContentView(R.layout.activity_main)
 
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -115,6 +125,7 @@ class MainActivity : AppCompatActivity(),
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
 
+        //If user is already signed in previously it will skip the sign-in and go straight to TaskList
         if(account != null){
             Log.d(TAG, "We found a User in onStart()")
             startFragmentBasedActivities()
@@ -126,6 +137,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
+    //Creating TaskFragment with the passed in taskID
     override fun onTaskSelected(taskID: UUID) {
         Log.d(TAG, "MainActivity.onTaskSelected: $taskID")
         val fragment = TaskFragment.newInstance(taskID)
@@ -136,6 +148,7 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    //Creating AddTaskFragment when user would like to create new task
     override fun onAddTask() {
         Log.d(TAG, "MainActivity.onAddTask()")
         val fragment = AddTaskFragment.newInstance()
@@ -146,16 +159,19 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    //Will just pop from the stack and go back to previous fragment
     override fun onBackPressed() {
         Log.d(TAG, "Back button pressed from Add Task Fragment!")
         super.onBackPressed()
     }
 
+    //Will just pop from the stack and go back to previous fragment
     override fun onBackArrow() {
         Log.d(TAG, "Back button pressed from Task Fragment!")
         super.onBackPressed()
     }
 
+    //Will launch AddTaskFragment with the TaskID when the user wants to edit a task
     override fun onEditSelected(taskId: UUID) {
         Log.d(TAG, "Edit button pressed from Task Fragment!")
         val fragment = AddTaskFragment.newInstance(taskId)
@@ -166,6 +182,7 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    //User signs out
     override fun onSignOut() {
         // super.onBackPressed()
         // startFragmentBasedActivities()

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
 
+//Code from the book showing how to display and format the bitmap taken from picture
 fun getScaledBitmap(path: String, destWidth: Int, destHeight: Int): Bitmap {
     // Read in the dimensions of the image on disk
     var options = BitmapFactory.Options()

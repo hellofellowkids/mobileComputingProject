@@ -16,6 +16,7 @@ class DatePickerFragment : DialogFragment() {
         fun onDateSelected(time: Date, protocol : Int)
     }
 
+    //Creating dialog for date picker
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Extract info from bundle
         val date = arguments?.getSerializable(ARG_DATE) as Date
@@ -47,8 +48,10 @@ class DatePickerFragment : DialogFragment() {
             initialDay
         )
 
+        //Setting the minimum date available to be the current date
         dp.datePicker.minDate = Date().time
         // calling from personal
+        // personal cannot be later than the due date
         if(protocol == 2 || protocol == 3) {
             dp.datePicker.maxDate = date.time
         }

@@ -22,14 +22,17 @@ class TaskDetailViewModel() : ViewModel() {
         taskIdLiveData.value = taskID
     }
 
+    //Will call taskRepository updateTask
     fun saveTask(task : Task) {
         taskRepository.updateTask(task)
     }
 
+    //Will call taskRepository deleteTask
     fun deleteTask(task : Task) {
         taskRepository.deleteTask(task)
     }
 
+    //Will call taskRepository getPhotoFile
     fun getPhotoFile(task: Task) : File {
         return taskRepository.getPhotoFile(task)
     }

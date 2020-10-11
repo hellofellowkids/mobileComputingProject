@@ -9,6 +9,8 @@ class TaskListViewModel : ViewModel(){
     private val taskRepository = TaskRepository.get()
     var taskListLiveData = taskRepository.getIncompleteTasks()
 
+    //Will call all these functions from the Repository
+
     fun switchIncomplete() {
         taskListLiveData = taskRepository.getIncompleteTasks()
     }
@@ -25,7 +27,6 @@ class TaskListViewModel : ViewModel(){
         taskListLiveData = taskRepository.getPersonalSorted()
     }
 
-    // 420
     fun getHigh() {
         taskListLiveData = taskRepository.getHighPriority()
     }

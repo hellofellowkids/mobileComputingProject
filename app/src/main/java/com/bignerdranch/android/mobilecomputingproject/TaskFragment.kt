@@ -69,8 +69,10 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
     private lateinit var photoFile : File
     private lateinit var photoUri: Uri
 
+    //Grabbing the task information through the passed taskID and then loaded from database through ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Do not need a null check because there will always be something to grab
         val taskID: UUID = arguments?.getSerializable(ARG_TASK_ID) as UUID
         Log.d(TAG, "args bundle task ID: $taskID")
 
@@ -117,6 +119,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
             Observer { task ->
                 task?.let {
                     this.task = task
+                    //Setting up the picture to be taken
                     photoFile = taskDetailViewModel.getPhotoFile(task)
                     photoUri = FileProvider.getUriForFile(requireActivity(),
                         "com.bignerdranch.android.mobileComputingProject.fileprovider",
@@ -126,6 +129,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
             })
     }
 
+    //Formatting the information to be populated
     private fun updateUI() {
         // set widget with info from 'task' var
 
@@ -176,6 +180,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
 
     }
 
+
     override fun onStart() {
         super.onStart()
 
@@ -199,15 +204,17 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
 
         }
 
-        // gear icons
+        // gear icon
         editSettingsButton.setOnClickListener {
             //We want to edit this task
             Log.d(TAG, "Edit Settings Button Clicked")
 
             if(!task.complete) {
+                //Will send the user to AddTaskFragment with the taskID
                 callbacks?.onEditSelected(task.taskID)
             }
             else {
+                //If the task is completed you will not be able to edit
                 Toast.makeText(activity, "You cannot edit a completed task", Toast.LENGTH_SHORT).show()
             }
         }
@@ -228,6 +235,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
                 }
             }
             else {
+                //If the task is completed you will not be able to re-complete
                 Toast.makeText(activity, "What more do you want to complete?", Toast.LENGTH_SHORT).show()
             }
         }
@@ -255,6 +263,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
         }
     }
 
+    //If yes is chosen for the camera option, the camera intent will be fired allowing the user to take a picture
     override fun onPositiveClick() {
         Log.d(TAG, "Yes response!")
 
@@ -288,14 +297,16 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
         // callbacks?.onBackArrow()
     }
 
+    //If the user does not want to take a picture it will just naturally bring them to ListFragment
     override fun onNegativeClick() {
         Log.d(TAG, "NO response!")
         callbacks?.onBackArrow()
     }
 
+    //If user selects they want to delete task it will call delete task from ViewModel and delete from database
     override fun onPositiveDeleteClick() {
-        // deletes task and puts them back to list
         taskDetailViewModel.deleteTask(task)
+        //Once back in TaskListFragment it will display database tasks and the deleted task will not be there
         callbacks?.onBackArrow()
     }
 

@@ -18,6 +18,7 @@ class TimePickerFragment : DialogFragment() {
         fun onTimeSelected(time: Date, protocol : Int)
     }
 
+    //Create dialog to pick the time inside AddTaskFragment
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Extract info from bundle
         val date = arguments?.getSerializable(ARG_Time) as Date

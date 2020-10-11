@@ -110,19 +110,23 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //If the user wants to edit the task
+        //Will populate the fragment with the task information
         if(arguments != null) {
             val passedTaskID: UUID = arguments?.getSerializable(ARG_EDIT_TASK_ID) as UUID
             Log.d(TAG, "args bundle task ID: $passedTaskID")
             addTaskViewModel.removeChecks() // remove any restraints on data
             addTaskViewModel.load(passedTaskID)
-
+            //We want the header to read edit task instead of add task
             headerText.text = "Edit Task"
 
             addTaskViewModel.taskLiveData.observe(
                 viewLifecycleOwner,
                 Observer { task ->
                     task?.let {
+                        //Grabs information from ViewModel
                         addTaskViewModel.newTask = task
+                        //Updates UI every time change is observed
                         usePassedTaskInfo()
                     }
                 })
@@ -132,7 +136,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     override fun onStart() {
         super.onStart()
 
-        // Edit text for task name
+        // Update text for task name
         taskName.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
@@ -149,7 +153,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             }
         })
 
-        // Edit text for course name
+        // Update text for course name
         courseName.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
@@ -186,7 +190,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                         show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
                     }
             }
-
+            //If user attempts to pick due date time before the due date itself
             else {
                 Toast.makeText(activity,"Please select a due date FIRST", Toast.LENGTH_SHORT).show()
             }
@@ -217,6 +221,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                         show(this@AddTaskFragment.requireFragmentManager(), DIALOG_TIME)
                     }
             }
+            //If user attempts to add personal date before final due date
             else if(!addTaskViewModel.deadlineDateCheck) {
                 Toast.makeText(activity,"Please select a due date FIRST", Toast.LENGTH_SHORT).show()
             }
@@ -238,21 +243,25 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             // addTaskViewModel.newTask.taskName = "UI Mockup Design"
             // addTaskViewModel.newTask.courseName = "Mobile Computing"
             // addTaskViewModel.newTask.priority = "High Priority"
+
+            //If task is being edited and check mark is clicked
             if(arguments != null) {
+                //ViewModel -> Repository -> DAO
                 addTaskViewModel.saveTask()
                 callbacks?.onBackPressed()
             }
              else {
-
+                //If adding task for the first time need to make sure the due date and task name are provided
                 if(addTaskViewModel.deadlineDateCheck && addTaskViewModel.taskNameCheck) {
+                    //ViewModel -> Repository -> DAO
                     addTaskViewModel.addTask()
                     callbacks?.onBackPressed()
                 }
-
+                //If task name hasnt been provided
                 else if (!addTaskViewModel.taskNameCheck){
                     Toast.makeText(activity,"Please provide name to task", Toast.LENGTH_SHORT).show()
                 }
-
+                //If due date hasnt been provided
                 else if (!addTaskViewModel.deadlineDateCheck){
                     Toast.makeText(activity,"Please select a due date", Toast.LENGTH_SHORT).show()
                 }
@@ -281,6 +290,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
 
             }
 
+            //Used to determine what priority the user selects and updates the task info in ViewModel
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d(TAG, "Selected item from spinner position = $position")
                 when (position) {
@@ -297,6 +307,9 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         callbacks = null
     }
 
+
+    //Will handle formatting the date when selected inside fragment
+    //Will update the information inside the ViewModel
     override fun onDateSelected(date: Date, protocol : Int) {
         Log.i(TAG, "Protocol: $protocol and Date: $date")
         when (protocol) {
@@ -309,9 +322,10 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 val df = DateFormat.format("EEE MMM dd, yyyy", date)
                 addDueDate.text = df
 
-                // remove check
+                // remove check -- Used to make sure if deadline has been first selected
                 addTaskViewModel.deadlineDateCheck = true
 
+                //Default time for the remaining fields
                 date.hours = 23
                 date.minutes = 59
                 date.seconds = 0
@@ -325,6 +339,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 // Log.i(TAG, "df = $df")
                 addDueTime.text = df2
 
+                //When date is picked, personal and reminder will be cleared
                 addPersonalDate.text = "---"
                 addPersonalTime.text = "---"
                 addReminderText.text = "---"
@@ -355,9 +370,12 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         }
     }
 
+    //Will handle formatting the time when selected inside fragment
+    //Will update the information inside the ViewModel
     override fun onTimeSelected(time: Date, protocol : Int) {
         Log.i(TAG, "Protocol: $protocol and Date: $time")
         when (protocol) {
+            //When we click on the due date time
             1 ->  {
                 addTaskViewModel.newTask.finalDeadlineTime = time
                 val df = DateFormat.format("hh:mm a", time)
@@ -365,13 +383,14 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 addDueTime.text = df
 
             }
+            //When we click on the personal date time
             2 -> {
                 addTaskViewModel.newTask.personalDeadlineTime = time
                 val df = DateFormat.format("hh:mm a", time)
                 // Log.i(TAG, "df = $df")
                 addPersonalTime.text = df
             }
-
+            //When we click on the reminder time
             3 -> {
                 addTaskViewModel.newTask.reminderTime = time
                 val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", time)
@@ -399,6 +418,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         }
     }
 
+    //Grabbing information for the task from the ViewModel
     private fun usePassedTaskInfo() {
         // Basic Info
         taskName.setText(addTaskViewModel.newTask.taskName)

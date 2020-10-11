@@ -18,6 +18,7 @@ class AddTaskViewModel : ViewModel(){
     var taskNameCheck : Boolean = false
 
     fun removeChecks() {
+        //checking conditions inside AddTaskFragment
         deadlineDateCheck = true
         taskNameCheck = true
         personalDateCheck = true
@@ -35,10 +36,12 @@ class AddTaskViewModel : ViewModel(){
             taskRepository.getTask(taskID)
         }
 
+    //load task by ID
     fun load(taskID: UUID) {
         taskIdLiveData.value = taskID
     }
 
+    //save task to database when editing task information
     fun saveTask() {
         taskRepository.updateTask(newTask)
     }

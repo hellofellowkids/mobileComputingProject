@@ -15,6 +15,7 @@ class STMApplication : Application() {
         super.onCreate()
         TaskRepository.initialize(this)
 
+        //Creating the notification channels after checking the SDK version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // First Channel is for Daily Reminders
             val name = getString(R.string.notification_channel_name)
