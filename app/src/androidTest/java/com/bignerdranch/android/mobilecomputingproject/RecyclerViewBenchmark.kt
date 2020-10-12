@@ -6,7 +6,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.benchmark.junit4.BenchmarkRule
 import androidx.benchmark.junit4.measureRepeated
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -17,6 +16,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 
 @LargeTest
@@ -33,7 +33,10 @@ class RecyclerViewBenchmark {
     val benchmarkRule = BenchmarkRule()
 
     @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    val activityRule= ActivityTestRule(MainActivity::class.java)
+
+    @get:Rule
+    var fragmentRule: FragmentTestRule<CountingFragment> =  FragmentTestRule(CountingFragment::class.java)
 
     @Before
     fun setup() {
