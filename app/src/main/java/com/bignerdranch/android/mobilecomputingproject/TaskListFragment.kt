@@ -47,8 +47,13 @@ class TaskListFragment : Fragment() {
     private lateinit var taskRecycleView : RecyclerView
     private var adapter: TaskAdapter? = TaskAdapter(emptyList())
 
+    // getter methods for testing
+    fun provideRecyclerView() : RecyclerView {
+        return taskRecycleView
+    }
+
     // List view model defined by lazy
-    private val taskListViewModel: TaskListViewModel by lazy {
+    public val taskListViewModel: TaskListViewModel by lazy {
         ViewModelProviders.of(this).get(TaskListViewModel::class.java)
     }
 
