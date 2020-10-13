@@ -9,7 +9,7 @@ class TaskListViewModel : ViewModel(){
     private val taskRepository = TaskRepository.get()
     var taskListLiveData = taskRepository.getIncompleteTasks()
 
-    //Will call all these functions from the Repository
+    // Will call all these functions from the Repository to help support task filter
 
     fun switchIncomplete() {
         taskListLiveData = taskRepository.getIncompleteTasks()

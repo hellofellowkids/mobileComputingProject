@@ -94,7 +94,7 @@ class TaskListFragment : Fragment() {
         // setup spinner
         setupSpinnerAdapter()
 
-        // network code
+        // network code to pull Google account info
         signOutButton = view.findViewById(R.id.sign_out_button) as Button
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -103,10 +103,11 @@ class TaskListFragment : Fragment() {
 
         val account = GoogleSignIn.getLastSignedInAccount(activity)
 
+        // If there was an account, grab pull their name and welcome them with toast
         if (account != null && !signInCheck && arguments == null) {
             val personName = "Welcome " + account.displayName
             Toast.makeText(activity, personName, Toast.LENGTH_SHORT).show()
-            signInCheck = true
+            signInCheck = true // ensure welcome doesn't come every time you go to this fragment
         }
 
 
@@ -129,7 +130,7 @@ class TaskListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // network code
+        // network code - sign out button
         signOutButton.setOnClickListener {
             //When user clicks the sign out button 
             mGoogleSignInClient.signOut().addOnCompleteListener {
@@ -147,7 +148,7 @@ class TaskListFragment : Fragment() {
             // callbacks?.onAddTask()
         }
 
-        // task filter
+        // task filter spinner
         taskFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 

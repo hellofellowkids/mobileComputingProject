@@ -13,10 +13,12 @@ class AddTaskViewModel : ViewModel(){
     private val taskRepository = TaskRepository.get()
     var newTask = Task()
 
+    // checks before user can create a task
     var deadlineDateCheck : Boolean = false
     var personalDateCheck : Boolean = false
     var taskNameCheck : Boolean = false
 
+    // easy way for if we editing a task to remove those checks
     fun removeChecks() {
         //checking conditions inside AddTaskFragment
         deadlineDateCheck = true

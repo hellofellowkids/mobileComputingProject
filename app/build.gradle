@@ -15,10 +15,10 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // Enable measuring on an emulator, or devices with low battery
-        testInstrumentationRunner "androidx.benchmark.junit4.AndroidBenchmarkRunner"
-        testInstrumentationRunnerArgument 'androidx.benchmark.suppressErrors', 'ACTIVITY-MISSING EMULATOR LOW_BATTERY'
+        // testInstrumentationRunner "androidx.benchmark.junit4.AndroidBenchmarkRunner"
+        // testInstrumentationRunnerArgument 'androidx.benchmark.suppressErrors', 'ACTIVITY-MISSING EMULATOR LOW_BATTERY'
     }
 
     buildTypes {
@@ -64,5 +64,5 @@ dependencies {
     implementation "android.arch.work:work-runtime:1.0.1"
 
     // Jetpack
-    androidTestImplementation "androidx.benchmark:benchmark-junit4:1.0.0"
+    // androidTestImplementation "androidx.benchmark:benchmark-junit4:1.0.0"
 }

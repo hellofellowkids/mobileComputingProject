@@ -155,15 +155,19 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
         dueDate.text = df1.toString()
         dueTime.text = df2.toString()
 
+        // if due date = personal time, then that means we didn't set a personal time
         if(df1 == df3 && df2 == df4) {
+            // set text to blank since no personal deadline was set
             personalDate.text = "---"
             personalTime.text = "---"
         }
         else {
+            // set text to personal time
             personalDate.text = df3.toString()
             personalTime.text = df4.toString()
         }
 
+        // do a similar thing for reminder time by comparing it to due date
         if(task.finalDeadlineDate != task.reminderTime) {
             val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", task.reminderFrequency)
             reminder.text = df
@@ -204,7 +208,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
 
         }
 
-        // gear icon
+        // gear icon / edit icon
         editSettingsButton.setOnClickListener {
             //We want to edit this task
             Log.d(TAG, "Edit Settings Button Clicked")
@@ -219,6 +223,7 @@ class TaskFragment : Fragment(), AlertDialogFragment.Callbacks, DeleteDialogFrag
             }
         }
 
+        // check mark button
         checkButton.setOnClickListener {
             //We want to complete this task
             Log.d(TAG, "Complete Button Clicked")

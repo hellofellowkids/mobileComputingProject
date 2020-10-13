@@ -55,6 +55,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     private lateinit var reminderSelect : LinearLayout
 
 
+    // text views on screen
     private lateinit var addDueDate: TextView
     private lateinit var addDueTime: TextView
     private lateinit var addPersonalDate: TextView
@@ -62,6 +63,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     private lateinit var addReminderText: TextView
     private lateinit var headerText : TextView
 
+    // priority spinner
     private lateinit var addPrioritySpinner: Spinner
 
     override fun onAttach(context: Context) {
@@ -111,7 +113,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         super.onViewCreated(view, savedInstanceState)
 
         //If the user wants to edit the task
-        //Will populate the fragment with the task information
+        // Will populate the fragment with the task information
         if(arguments != null) {
             val passedTaskID: UUID = arguments?.getSerializable(ARG_EDIT_TASK_ID) as UUID
             Log.d(TAG, "args bundle task ID: $passedTaskID")
@@ -244,7 +246,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             // addTaskViewModel.newTask.courseName = "Mobile Computing"
             // addTaskViewModel.newTask.priority = "High Priority"
 
-            //If task is being edited and check mark is clicked
+            // If task is being edited and check mark is clicked
             if(arguments != null) {
                 //ViewModel -> Repository -> DAO
                 addTaskViewModel.saveTask()
@@ -313,7 +315,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
     override fun onDateSelected(date: Date, protocol : Int) {
         Log.i(TAG, "Protocol: $protocol and Date: $date")
         when (protocol) {
-            1 ->  {
+            1 ->  { // Due date was selected for date input
                 // Set dates
                 addTaskViewModel.newTask.finalDeadlineDate = date
                 addTaskViewModel.newTask.personalDeadlineDate = date
@@ -326,10 +328,12 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 addTaskViewModel.deadlineDateCheck = true
 
                 //Default time for the remaining fields
+                // Assignments are usually due at 11:59 PM
                 date.hours = 23
                 date.minutes = 59
                 date.seconds = 0
 
+                // Clever trick to figure out if we have data entered for personal and reminder
                 addTaskViewModel.newTask.finalDeadlineTime = date
                 addTaskViewModel.newTask.personalDeadlineTime = date
                 addTaskViewModel.newTask.reminderFrequency = date
@@ -345,22 +349,22 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
                 addReminderText.text = "---"
 
             }
-            2 ->  {
+            2 ->  { // when you select date for personal deadline
                 addTaskViewModel.newTask.personalDeadlineDate = date
                 addTaskViewModel.newTask.personalDeadlineTime = date
                 val df = DateFormat.format("EEE MMM dd, yyyy", date)
                 // Log.i(TAG, "df = $df")
                 addPersonalDate.text = df
 
-                // remove check
+                // remove check that prevents from creating task
                 addTaskViewModel.personalDateCheck = true
             }
 
-            3 -> {
-                // Do something
+            3 -> { // when you select a date for reminder
                 addTaskViewModel.newTask.reminderFrequency = date
                 addTaskViewModel.newTask.reminderTime = date
 
+                // now ask for a time immediately
                 TimePickerFragment.newInstance(addTaskViewModel.newTask.reminderFrequency, 3)
                     .apply {
                         setTargetFragment(this@AddTaskFragment, REQUEST_TIME)
@@ -377,6 +381,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         when (protocol) {
             //When we click on the due date time
             1 ->  {
+                // set view model and update text
                 addTaskViewModel.newTask.finalDeadlineTime = time
                 val df = DateFormat.format("hh:mm a", time)
                 // Log.i(TAG, "df = $df")
@@ -385,6 +390,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             }
             //When we click on the personal date time
             2 -> {
+                // set view model and update text
                 addTaskViewModel.newTask.personalDeadlineTime = time
                 val df = DateFormat.format("hh:mm a", time)
                 // Log.i(TAG, "df = $df")
@@ -392,6 +398,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
             }
             //When we click on the reminder time
             3 -> {
+                // set view model and update text
                 addTaskViewModel.newTask.reminderTime = time
                 val df = DateFormat.format("EEE MMM dd, yyyy   -    hh:mm a", time)
                 addReminderText.text = df
@@ -402,6 +409,7 @@ class AddTaskFragment : Fragment(), DatePickerFragment.Callbacks, TimePickerFrag
         }
     }
 
+    // Adapater is necessary to use spinner within layout
     private fun setupSpinnerAdapter() {
         // Array adapter for task filter
         activity?.let {

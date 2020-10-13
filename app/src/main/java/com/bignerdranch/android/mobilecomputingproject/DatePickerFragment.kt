@@ -51,7 +51,7 @@ class DatePickerFragment : DialogFragment() {
         //Setting the minimum date available to be the current date
         dp.datePicker.minDate = Date().time
         // calling from personal
-        // personal cannot be later than the due date
+        // personal cannot be later than the due date for personal / reminder (known because protocol)
         if(protocol == 2 || protocol == 3) {
             dp.datePicker.maxDate = date.time
         }
